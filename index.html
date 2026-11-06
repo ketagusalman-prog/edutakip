@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTakip - Kesintisiz Portalı</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .badge-bronz { background: linear-gradient(135deg, #cd7f32, #a05a2c); color: white; }
+    .badge-gumus { background: linear-gradient(135deg, #94a3b8, #64748b); color: white; }
+    .badge-altin { background: linear-gradient(135deg, #eab308, #ca8a04); color: white; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen pb-20 md:pb-6">
+
+  <!-- TOP BAR -->
+  <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-30 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl overflow-hidden border border-slate-600 bg-white flex items-center justify-center p-0.5 shadow-md">
+          <img src="https://raw.githubusercontent.com/placeholder-logo/edutakip-logo.jpg" alt="EduTakip Logo" class="w-full h-full object-cover rounded-lg">
+        </div>
+        <div>
+          <h1 class="font-bold text-lg text-white leading-tight">EduTakip</h1>
+          <p class="text-xs text-emerald-400 font-semibold" id="syncStatus">● Canlı Senkronize Portal</p>
+        </div>
+      </div>
+      <div id="userBadge" class="hidden items-center space-x-3">
+        <span id="userInfo" class="text-sm font-medium text-slate-300"></span>
+        <button onclick="logout()" class="p-2 text-rose-400 hover:bg-slate-700 rounded-lg transition" title="Çıkış Yap">
+          <i data-lucide="log-out" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 py-6">
+
+    <!-- 1. TEACHER INITIAL REGISTER SCREEN -->
+    <div id="teacherRegisterScreen" class="max-w-md mx-auto mt-6 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="text-center">
+        <div class="w-20 h-20 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-indigo-500/40 bg-white p-1 shadow-xl">
+          <img src="https://raw.githubusercontent.com/placeholder-logo/edutakip-logo.jpg" alt="EduTakip Logo" class="w-full h-full object-cover rounded-xl">
+        </div>
+        <h2 class="text-2xl font-bold text-white">Öğretmen Kaydı</h2>
+        <p class="text-slate-400 text-xs mt-1">Sistemi başlatmak için ilk bilgilerinizi tanımlayın</p>
+      </div>
+
+      <form onsubmit="handleTeacherRegister(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Adınız Soyadınız</label>
+          <input type="text" id="regTeacherName" required placeholder="Örn: Ahmet Yılmaz" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Ana Branşınız</label>
+          <input type="text" id="regTeacherBranch" required placeholder="Örn: Matematik" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Kullanıcı Adı</label>
+          <input type="text" id="regTeacherUser" required placeholder="Örn: ahmet101" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Şifre</label>
+          <input type="password" id="regTeacherPass" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+        <button type="submit" id="btnTeacherReg" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition shadow-lg mt-2 flex items-center justify-center gap-2">
+          <span>Kaydol ve Giriş Yap</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- 2. MAIN LOGIN GATEWAY -->
+    <div id="loginScreen" class="hidden max-w-md mx-auto mt-6 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl">
+      <div class="text-center mb-4">
+        <div class="w-16 h-16 mx-auto mb-2 rounded-2xl overflow-hidden border-2 border-indigo-500/40 bg-white p-1 shadow-lg">
+          <img src="https://raw.githubusercontent.com/placeholder-logo/edutakip-logo.jpg" alt="EduTakip Logo" class="w-full h-full object-cover rounded-xl">
+        </div>
+        <h2 class="text-2xl font-bold text-white">EduTakip Girişi</h2>
+        <p class="text-slate-400 text-xs mt-1">Lütfen giriş yapmak istediğiniz rolü seçin</p>
+      </div>
+      
+      <div class="grid grid-cols-3 gap-2 mb-5 p-1 bg-slate-900 rounded-xl">
+        <button type="button" onclick="selectRole('student')" id="btnRoleStudent" class="py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white">Öğrenci</button>
+        <button type="button" onclick="selectRole('parent')" id="btnRoleParent" class="py-2 text-sm font-semibold rounded-lg text-slate-400">Veli</button>
+        <button type="button" onclick="selectRole('teacher')" id="btnRoleTeacher" class="py-2 text-sm font-semibold rounded-lg text-slate-400">Öğretmen</button>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Kullanıcı Adı</label>
+          <input type="text" id="loginUsername" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Şifre</label>
+          <input type="password" id="loginPassword" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition shadow-lg">Giriş Yap</button>
+      </form>
+
+      <div class="mt-4 pt-4 border-t border-slate-700 text-center">
+        <button onclick="showRegisterScreen()" class="text-xs text-indigo-400 hover:underline">
+          Yeni Öğretmen Kaydı Oluştur
+        </button>
+      </div>
+      <p id="loginError" class="text-xs text-rose-400 text-center mt-3 hidden"></p>
+    </div>
+
+    <!-- 3. DASHBOARD PANELS -->
+    <div id="dashboard" class="hidden space-y-6">
+
+      <!-- STUDENT PANEL -->
+      <div id="studentPanel" class="hidden space-y-6">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <span id="studentBadgeLevel" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full badge-bronz mb-2 inline-block">Bronz Kademe</span>
+            <h2 id="studentDisplayName" class="text-2xl font-bold text-white">--</h2>
+            <p id="studentDisplaySub" class="text-slate-400 text-sm">--</p>
+          </div>
+          <div class="flex items-center gap-4 w-full md:w-auto justify-between">
+            <div class="text-right">
+              <div class="text-2xl font-extrabold text-amber-400" id="studentTotalPoints">0 Puan</div>
+              <div class="text-xs text-slate-400">Tamamlanan Ödev Puanı</div>
+            </div>
+            <button onclick="changeStudentCredentials()" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-2 rounded-xl text-slate-200 font-semibold flex items-center gap-1">
+              <i data-lucide="key" class="w-3.5 h-3.5"></i> K.Adı / Şifre Değiştir
+            </button>
+          </div>
+        </div>
+
+        <div id="studentParentSection" class="bg-slate-800/90 border border-indigo-500/30 rounded-2xl p-5 shadow-lg"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-4">
+            <h3 class="font-bold text-lg text-white flex items-center gap-2">
+              <i data-lucide="book-open" class="w-5 h-5 text-indigo-400"></i> Aktif Ödevler & Görevler
+            </h3>
+            <div id="studentAssignmentsList" class="space-y-3"></div>
+          </div>
+          <div class="space-y-4">
+            <h3 class="font-bold text-lg text-white flex items-center gap-2">
+              <i data-lucide="message-square" class="w-5 h-5 text-indigo-400"></i> Öğretmen Notları
+            </h3>
+            <div id="studentMessagesList" class="space-y-3"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PARENT PANEL -->
+      <div id="parentPanel" class="hidden space-y-6">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h2 class="text-xl font-bold text-white" id="parentWelcomeTitle">Veli Portalı</h2>
+            <p class="text-slate-400 text-xs mt-1">Öğrencinizin ev ödevi takip ve öğretmen iletişim alanı</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="changeParentCredentials()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-xl text-slate-200 font-semibold flex items-center gap-1">
+              <i data-lucide="key" class="w-3.5 h-3.5"></i> Veli K.Adı / Şifre Değiştir
+            </button>
+            <button onclick="logout()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-xl text-slate-200 font-semibold">Çıkış Yap</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
+            <h3 class="font-bold text-white flex items-center gap-2">
+              <i data-lucide="check-square" class="w-5 h-5 text-emerald-400"></i> Ev Ödevi / Test Sonucu Gir
+            </h3>
+            <form onsubmit="submitParentResult(event)" class="space-y-3">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Ders / Ödev Seçin</label>
+                <select id="parentAssignmentSelect" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm"></select>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <div>
+                  <label class="block text-xs text-slate-400 mb-1">Doğru</label>
+                  <input type="number" id="parentCorrect" min="0" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white text-sm">
+                </div>
+                <div>
+                  <label class="block text-xs text-slate-400 mb-1">Yanlış</label>
+                  <input type="number" id="parentWrong" min="0" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white text-sm">
+                </div>
+                <div>
+                  <label class="block text-xs text-slate-400 mb-1">Boş</label>
+                  <input type="number" id="parentEmpty" min="0" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white text-sm">
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Ödev Yapılma Durumu</label>
+                <select id="parentStatus" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm">
+                  <option value="Tamamlandı">Tam Yapıldı</option>
+                  <option value="Eksik">Eksik Yapıldı</option>
+                  <option value="Yapılmadı">Yapılmadı</option>
+                </select>
+              </div>
+              <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2.5 rounded-xl text-sm transition">Kaydet</button>
+            </form>
+          </div>
+
+          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
+            <h3 class="font-bold text-white flex items-center gap-2">
+              <i data-lucide="send" class="w-5 h-5 text-indigo-400"></i> Öğretmene Not / Mesaj Gönder
+            </h3>
+            <form onsubmit="submitParentMessage(event)" class="space-y-3">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Mesajınız</label>
+                <textarea id="parentMsgText" rows="4" required placeholder="Öğretmene iletmek istediğiniz not..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-indigo-500"></textarea>
+              </div>
+              <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition">Mesajı İlet</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEACHER PANEL -->
+      <div id="teacherPanel" class="hidden space-y-6">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h2 class="text-xl font-bold text-white" id="teacherWelcomeTitle">Öğretmen Paneli</h2>
+            <p class="text-slate-400 text-xs mt-1" id="teacherWelcomeSub">Ödev yönetimi ve öğrenci işlemleri</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="openAddBranchModal()" class="text-xs bg-slate-700 hover:bg-slate-600 border border-slate-600 px-3 py-2 rounded-xl font-semibold text-white">+ Branş Ekle</button>
+            <button onclick="openAddStudentModal()" class="text-xs bg-indigo-600 hover:bg-indigo-500 px-3 py-2 rounded-xl font-semibold text-white">+ Yeni Öğrenci Tanımla</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
+            <h3 class="font-bold text-white flex items-center gap-2">
+              <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-400"></i> Yeni Ödev Ver
+            </h3>
+            <form onsubmit="submitTeacherAssignment(event)" class="space-y-3">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Ders Branşı</label>
+                <select id="teacherBranchSelect" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm"></select>
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Ödev Başlığı / Konusu</label>
+                <input type="text" id="teacherAssignTitle" required placeholder="Örn: Sayfa 45-50 arası test" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm">
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Son Teslim Tarihi</label>
+                <input type="date" id="teacherAssignDate" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm">
+              </div>
+              <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition">Ödevi Yayınla</button>
+            </form>
+          </div>
+
+          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
+            <h3 class="font-bold text-white flex items-center gap-2">
+              <i data-lucide="message-square" class="w-5 h-5 text-amber-400"></i> Özel Mesaj / Not Bırak
+            </h3>
+            <form onsubmit="submitTeacherMessage(event)" class="space-y-3">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Hedef Alıcı Türü</label>
+                <select id="teacherTargetType" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm mb-2">
+                  <option value="student">Sadece Öğrenci Görebilsin</option>
+                  <option value="parent">Sadece Veli Görebilsin (Gizli Not)</option>
+                  <option value="both">Herkese Açık (Veli & Öğrenci)</option>
+                </select>
+                <label class="block text-xs text-slate-400 mb-1">İlgili Öğrenci</label>
+                <select id="teacherTargetStudent" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm"></select>
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Mesajınız</label>
+                <textarea id="teacherMsgText" rows="3" required placeholder="Not içeriği..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-indigo-500"></textarea>
+              </div>
+              <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-semibold py-2.5 rounded-xl text-sm transition">Mesajı Gönder</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+          <h3 class="font-bold text-white mb-4">Kayıtlı Öğrenciler ve Giriş Bilgileri</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-300">
+              <thead class="text-xs uppercase bg-slate-900 text-slate-400">
+                <tr>
+                  <th class="p-3">Ad Soyad</th>
+                  <th class="p-3">Öğrenci K.Adı</th>
+                  <th class="p-3">Öğrenci Şifre</th>
+                  <th class="p-3">Veli K.Adı</th>
+                  <th class="p-3">Veli Durumu</th>
+                  <th class="p-3">Puan</th>
+                  <th class="p-3 text-right">Giriş Paneline Aktar</th>
+                </tr>
+              </thead>
+              <tbody id="teacherStudentsTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const DEFAULT_DATA = {
+      teachers: [],
+      branches: ["Matematik", "Türkçe", "Fen Bilimleri", "Sosyal Bilgiler", "İngilizce"],
+      students: [
+        { id: "s1", name: "Ali Yılmaz", username: "ali101", password: "123", parentName: "Veli Ali", parentUsername: "veli_ali", parentPass: "456", points: 85 }
+      ],
+      assignments: [
+        { id: "a1", branch: "Matematik", title: "Kesirler Çalışma Yaprağı", date: "2026-11-10", status: "Bekliyor" }
+      ],
+      messages: []
+    };
+
+    let cloudData = null;
+    let currentRole = 'student';
+    let currentUser = null;
+
+    function getLocalData() {
+      const stored = localStorage.getItem('edutakip_stable_v1');
+      return stored ? JSON.parse(stored) : DEFAULT_DATA;
+    }
+
+    function saveLocalData(data) {
+      localStorage.setItem('edutakip_stable_v1', JSON.stringify(data));
+      cloudData = data;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      cloudData = getLocalData();
+      
+      if (!cloudData.teachers || cloudData.teachers.length === 0) {
+        showRegisterScreen();
+      } else {
+        showLoginScreen();
+      }
+      lucide.createIcons();
+    });
+
+    function showRegisterScreen() {
+      hideAllScreens();
+      document.getElementById('teacherRegisterScreen').classList.remove('hidden');
+    }
+
+    function showLoginScreen() {
+      hideAllScreens();
+      document.getElementById('loginScreen').classList.remove('hidden');
+    }
+
+    function hideAllScreens() {
+      document.getElementById('teacherRegisterScreen').classList.add('hidden');
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('dashboard').classList.add('hidden');
+    }
+
+    function selectRole(role) {
+      currentRole = role;
+      ['Student', 'Parent', 'Teacher'].forEach(r => {
+        const btn = document.getElementById(`btnRole${r}`);
+        if(r.toLowerCase() === role) {
+          btn.className = "py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white";
+        } else {
+          btn.className = "py-2 text-sm font-semibold rounded-lg text-slate-400";
+        }
+      });
+    }
+
+    function handleTeacherRegister(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('regTeacherName').value;
+      const branch = document.getElementById('regTeacherBranch').value;
+      const username = document.getElementById('regTeacherUser').value;
+      const password = document.getElementById('regTeacherPass').value;
+
+      if (!cloudData.branches.includes(branch)) cloudData.branches.push(branch);
+
+      const newTeacher = { id: 't' + Date.now(), name, branch, username, password };
+      cloudData.teachers.push(newTeacher);
+
+      saveLocalData(cloudData);
+
+      currentUser = { role: 'teacher', data: newTeacher };
+      showDashboard();
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById('loginUsername').value.trim();
+      const p = document.getElementById('loginPassword').value.trim();
+      const err = document.getElementById('loginError');
+
+      err.classList.add('hidden');
+
+      if (currentRole === 'teacher') {
+        const tch = cloudData.teachers.find(t => t.username === u && t.password === p);
+        if (tch) {
+          currentUser = { role: 'teacher', data: tch };
+          showDashboard();
+        } else {
+          err.innerText = "Hatalı Öğretmen Kullanıcı Adı veya Şifre!";
+          err.classList.remove('hidden');
+        }
+      } else if (currentRole === 'student') {
+        const std = cloudData.students.find(s => s.username === u && s.password === p);
+        if (std) {
+          currentUser = { role: 'student', data: std };
+          showDashboard();
+        } else {
+          err.innerText = "Öğrenci bulunamadı veya şifre yanlış!";
+          err.classList.remove('hidden');
+        }
+      } else if (currentRole === 'parent') {
+        const std = cloudData.students.find(s => (s.parentUsername === u || s.username === u) && s.parentPass === p);
+        if (std) {
+          currentUser = { role: 'parent', data: std };
+          showDashboard();
+        } else {
+          err.innerText = "Veli kullanıcı adı veya şifresi eşleşmedi!";
+          err.classList.remove('hidden');
+        }
+      }
+    }
+
+    function showDashboard() {
+      hideAllScreens();
+      document.getElementById('dashboard').classList.remove('hidden');
+      document.getElementById('userBadge').classList.remove('hidden');
+      document.getElementById('userBadge').classList.add('flex');
+
+      document.getElementById('userInfo').innerText = `${currentUser.data.name} (${currentUser.role === 'teacher' ? 'Öğretmen' : currentUser.role === 'student' ? 'Öğrenci' : 'Veli'})`;
+
+      document.getElementById('studentPanel').classList.add('hidden');
+      document.getElementById('parentPanel').classList.add('hidden');
+      document.getElementById('teacherPanel').classList.add('hidden');
+
+      if (currentUser.role === 'student') renderStudentPanel();
+      if (currentUser.role === 'parent') renderParentPanel();
+      if (currentUser.role === 'teacher') renderTeacherPanel();
+    }
+
+    function fillStudentToLogin(username, password) {
+      selectRole('student');
+      document.getElementById('loginUsername').value = username;
+      document.getElementById('loginPassword').value = password;
+      showLoginScreen();
+    }
+
+    function renderStudentPanel() {
+      document.getElementById('studentPanel').classList.remove('hidden');
+      const std = cloudData.students.find(s => s.id === currentUser.data.id) || currentUser.data;
+      currentUser.data = std;
+
+      document.getElementById('studentDisplayName').innerText = std.name;
+      document.getElementById('studentDisplaySub').innerText = `Kullanıcı Adı: ${std.username}`;
+      document.getElementById('studentTotalPoints').innerText = `${std.points} Puan`;
+
+      const badge = document.getElementById('studentBadgeLevel');
+      if (std.points >= 100) {
+        badge.className = "text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full badge-altin inline-block";
+        badge.innerText = "Altın Kademe";
+      } else if (std.points >= 50) {
+        badge.className = "text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full badge-gumus inline-block";
+        badge.innerText = "Gümüş Kademe";
+      } else {
+        badge.className = "text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full badge-bronz inline-block";
+        badge.innerText = "Bronz Kademe";
+      }
+
+      const parentSection = document.getElementById('studentParentSection');
+      if (!std.parentPass) {
+        parentSection.innerHTML = `
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl">
+              <i data-lucide="shield-plus" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-base">Veli Hesabı Oluştur / Şifre Belirle</h3>
+              <p class="text-xs text-slate-400">Veli portalına erişim için kullanıcı adı ve şifre tanımlayın.</p>
+            </div>
+          </div>
+          <form onsubmit="handleInlineParentRegister(event)" class="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <input type="text" id="inlineParentName" required placeholder="Veli Adı Soyadı" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <input type="text" id="inlineParentUser" required placeholder="Veli Kullanıcı Adı" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <input type="password" id="inlineParentPass" required placeholder="Yeni Veli Şifresi" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-xl text-sm transition">
+              Veli Şifresini Kaydet
+            </button>
+          </form>
+        `;
+      } else {
+        parentSection.innerHTML = `
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-indigo-500/20 text-indigo-400 rounded-xl">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-white text-base">Veli Portalı Geçişi</h3>
+                <p class="text-xs text-slate-400">Veli: <span class="text-indigo-300 font-semibold">${std.parentName || 'Kayıtlı Veli'}</span> (Korumalı Erişim)</p>
+              </div>
+            </div>
+            <form onsubmit="handleInlineParentLogin(event)" class="flex gap-2 w-full md:w-auto">
+              <input type="password" id="inlineEnterParentPass" required placeholder="Veli Şifreniz" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+              <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-xl text-sm whitespace-nowrap transition">
+                Veli Portalına Geç
+              </button>
+            </form>
+          </div>
+        `;
+      }
+
+      const assignContainer = document.getElementById('studentAssignmentsList');
+      assignContainer.innerHTML = cloudData.assignments.map(a => `
+        <div class="bg-slate-800 border border-slate-700 p-4 rounded-xl flex justify-between items-center">
+          <div>
+            <span class="text-xs text-indigo-400 font-semibold uppercase">${a.branch}</span>
+            <h4 class="font-bold text-white text-sm">${a.title}</h4>
+            <p class="text-xs text-slate-400 mt-1">Son Tarih: ${a.date}</p>
+          </div>
+          <span class="px-2.5 py-1 text-xs font-semibold rounded-lg ${a.status === 'Tamamlandı' ? 'bg-emerald-900/60 text-emerald-400' : 'bg-amber-900/60 text-amber-400'}">${a.status}</span>
+        </div>
+      `).join('');
+
+      const msgContainer = document.getElementById('studentMessagesList');
+      const filteredMsgs = cloudData.messages.filter(m => (m.targetStudentId === std.id || m.targetStudentId === 'all') && m.targetType !== 'parent');
+      msgContainer.innerHTML = filteredMsgs.length ? filteredMsgs.map(m => `
+        <div class="bg-slate-800 border border-slate-700 p-3 rounded-xl">
+          <p class="text-xs text-indigo-400 font-semibold mb-1">${m.sender} • ${m.date}</p>
+          <p class="text-sm text-slate-200">${m.text}</p>
+        </div>
+      `).join('') : '<p class="text-xs text-slate-500">Henüz özel not bulunmuyor.</p>';
+
+      lucide.createIcons();
+    }
+
+    function changeStudentCredentials() {
+      const std = cloudData.students.find(s => s.id === currentUser.data.id);
+      if (!std) return;
+
+      const newUsername = prompt("Yeni Öğrenci Kullanıcı Adınız:", std.username);
+      if (newUsername && newUsername.trim() !== "") {
+        const newPassword = prompt("Yeni Öğrenci Şifreniz:", std.password);
+        if (newPassword && newPassword.trim() !== "") {
+          std.username = newUsername.trim();
+          std.password = newPassword.trim();
+          saveLocalData(cloudData);
+          alert("Kullanıcı adınız ve şifreniz güncellendi!");
+          renderStudentPanel();
+        }
+      }
+    }
+
+    function changeParentCredentials() {
+      const std = cloudData.students.find(s => s.id === currentUser.data.id);
+      if (!std) return;
+
+      const newPUser = prompt("Yeni Veli Kullanıcı Adınız:", std.parentUsername || std.username);
+      if (newPUser && newPUser.trim() !== "") {
+        const newPPass = prompt("Yeni Veli Şifreniz:", std.parentPass || "");
+        if (newPPass && newPPass.trim() !== "") {
+          std.parentUsername = newPUser.trim();
+          std.parentPass = newPPass.trim();
+          saveLocalData(cloudData);
+          alert("Veli bilgileri güncellendi!");
+          renderParentPanel();
+        }
+      }
+    }
+
+    function handleInlineParentRegister(e) {
+      e.preventDefault();
+      const pName = document.getElementById('inlineParentName').value;
+      const pUser = document.getElementById('inlineParentUser').value;
+      const pass = document.getElementById('inlineParentPass').value;
+
+      const std = cloudData.students.find(s => s.id === currentUser.data.id);
+      if(std) {
+        std.parentName = pName;
+        std.parentUsername = pUser;
+        std.parentPass = pass;
+        saveLocalData(cloudData);
+        alert("Veli hesabı başarıyla kaydedildi!");
+        renderStudentPanel();
+      }
+    }
+
+    function handleInlineParentLogin(e) {
+      e.preventDefault();
+      const inputPass = document.getElementById('inlineEnterParentPass').value;
+      const std = cloudData.students.find(s => s.id === currentUser.data.id);
+
+      if(std && std.parentPass === inputPass) {
+        currentUser = { role: 'parent', data: std };
+        currentRole = 'parent';
+        showDashboard();
+      } else {
+        alert("Hatalı Veli Şifresi!");
+      }
+    }
+
+    function renderParentPanel() {
+      document.getElementById('parentPanel').classList.remove('hidden');
+      const std = cloudData.students.find(s => s.id === currentUser.data.id) || currentUser.data;
+      currentUser.data = std;
+
+      document.getElementById('parentWelcomeTitle').innerText = `Veli Portalı (${std.parentName || 'Veli'})`;
+
+      const select = document.getElementById('parentAssignmentSelect');
+      select.innerHTML = cloudData.assignments.map(a => `<option value="${a.id}">${a.branch} - ${a.title}</option>`).join('');
+    }
+
+    function renderTeacherPanel() {
+      document.getElementById('teacherPanel').classList.remove('hidden');
+
+      document.getElementById('teacherWelcomeTitle').innerText = `${currentUser.data.name} (${currentUser.data.branch} Öğretmeni)`;
+
+      const branchSelect = document.getElementById('teacherBranchSelect');
+      branchSelect.innerHTML = cloudData.branches.map(b => `<option value="${b}">${b}</option>`).join('');
+
+      const stdSelect = document.getElementById('teacherTargetStudent');
+      stdSelect.innerHTML = cloudData.students.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+
+      const table = document.getElementById('teacherStudentsTable');
+      table.innerHTML = cloudData.students.map(s => `
+        <tr class="border-b border-slate-700/50">
+          <td class="p-3 font-semibold text-white">${s.name}</td>
+          <td class="p-3 text-slate-300 font-mono text-xs">${s.username}</td>
+          <td class="p-3 text-slate-300 font-mono text-xs">${s.password}</td>
+          <td class="p-3 text-slate-300 font-mono text-xs">${s.parentUsername || '-'}</td>
+          <td class="p-3 text-xs">${s.parentPass ? '<span class="text-emerald-400 font-semibold">Şifre Tanımlı</span>' : '<span class="text-amber-400">Bekliyor</span>'}</td>
+          <td class="p-3 font-bold text-amber-400">${s.points}</td>
+          <td class="p-3 text-right">
+            <button onclick="fillStudentToLogin('${s.username}', '${s.password}')" class="bg-indigo-600/30 hover:bg-indigo-600 text-indigo-300 hover:text-white px-2.5 py-1 rounded-lg text-xs transition">
+              Girişe Aktar ➔
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function submitTeacherAssignment(e) {
+      e.preventDefault();
+      cloudData.assignments.push({
+        id: 'a' + Date.now(),
+        branch: document.getElementById('teacherBranchSelect').value,
+        title: document.getElementById('teacherAssignTitle').value,
+        date: document.getElementById('teacherAssignDate').value,
+        status: 'Bekliyor'
+      });
+      saveLocalData(cloudData);
+      alert('Ödev başarıyla yayınlandı!');
+      renderTeacherPanel();
+    }
+
+    function submitTeacherMessage(e) {
+      e.preventDefault();
+      cloudData.messages.push({
+        id: 'm' + Date.now(),
+        sender: `${currentUser.data.name} (${currentUser.data.branch})`,
+        targetType: document.getElementById('teacherTargetType').value,
+        targetStudentId: document.getElementById('teacherTargetStudent').value,
+        text: document.getElementById('teacherMsgText').value,
+        date: new Date().toLocaleDateString('tr-TR')
+      });
+      saveLocalData(cloudData);
+      alert('Mesaj başarıyla iletildi!');
+      document.getElementById('teacherMsgText').value = '';
+    }
+
+    function submitParentResult(e) {
+      e.preventDefault();
+      const assignId = document.getElementById('parentAssignmentSelect').value;
+      const status = document.getElementById('parentStatus').value;
+
+      const assign = cloudData.assignments.find(a => a.id === assignId);
+      if (assign) {
+        assign.status = status;
+        const std = cloudData.students.find(s => s.id === currentUser.data.id);
+        if (std && status === 'Tamamlandı') std.points += 15;
+        saveLocalData(cloudData);
+        alert('Sonuç ve ödev durumu güncellendi!');
+      }
+    }
+
+    function submitParentMessage(e) {
+      e.preventDefault();
+      cloudData.messages.push({
+        id: 'm' + Date.now(),
+        sender: `Veli (${currentUser.data.parentName || currentUser.data.name})`,
+        targetType: 'teacher',
+        targetStudentId: currentUser.data.id,
+        text: document.getElementById('parentMsgText').value,
+        date: new Date().toLocaleDateString('tr-TR')
+      });
+      saveLocalData(cloudData);
+      alert('Mesajınız öğretmene iletildi!');
+      document.getElementById('parentMsgText').value = '';
+    }
+
+    function openAddBranchModal() {
+      const bName = prompt("Eklemek istediğiniz yeni ders branşını girin:");
+      if (bName) {
+        if (!cloudData.branches.includes(bName)) {
+          cloudData.branches.push(bName);
+          saveLocalData(cloudData);
+          renderTeacherPanel();
+        }
+      }
+    }
+
+    function openAddStudentModal() {
+      const sName = prompt("Öğrenci Adı Soyadı:");
+      if (sName) {
+        const baseUser = sName.toLowerCase().replace(/\s+/g, '');
+        const newStd = {
+          id: 's' + Date.now(),
+          name: sName,
+          username: baseUser + '101',
+          password: 'ogr' + Math.floor(100 + Math.random() * 900),
+          parentName: '',
+          parentUsername: 'veli_' + baseUser,
+          parentPass: null,
+          points: 0
+        };
+        cloudData.students.push(newStd);
+        saveLocalData(cloudData);
+        renderTeacherPanel();
+      }
+    }
+
+    function logout() {
+      currentUser = null;
+      showLoginScreen();
+    }
+  </script>
+</body>
+</html>
