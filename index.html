@@ -1,739 +1,403 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduTakip - Kesintisiz Portalı</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .badge-bronz { background: linear-gradient(135deg, #cd7f32, #a05a2c); color: white; }
-    .badge-gumus { background: linear-gradient(135deg, #94a3b8, #64748b); color: white; }
-    .badge-altin { background: linear-gradient(135deg, #eab308, #ca8a04); color: white; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EduTakip Pro</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#0b1020;--bg2:#121a33;--card:rgba(24,33,62,.72);--in:#0a1126;--bd:#2a3a66;--tx:#eef2ff;--mut:#9aa8d0;--pri:#7c6cff;--pri2:#22d3ee;--ok:#34d399;--warn:#fbbf24;--bad:#fb7185;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]):not([data-theme="light"]){--bg:#eef1fb;--bg2:#e2e8fa;--card:rgba(255,255,255,.85);--in:#f5f7ff;--bd:#cdd6f0;--tx:#151b36;--mut:#5b6690}}
+:root[data-theme="light"]{--bg:#eef1fb;--bg2:#e2e8fa;--card:rgba(255,255,255,.85);--in:#f5f7ff;--bd:#cdd6f0;--tx:#151b36;--mut:#5b6690}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;color:var(--tx);font:14px/1.45 'Plus Jakarta Sans',system-ui,sans-serif;background:radial-gradient(900px 500px at 10% -10%,color-mix(in srgb,var(--pri) 30%,transparent),transparent),radial-gradient(800px 500px at 100% 0,color-mix(in srgb,var(--pri2) 22%,transparent),transparent),var(--bg);background-attachment:fixed}
+h2,h3,.logo{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.w{max-width:1150px;margin:auto;padding:16px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 18px;background:var(--card);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd)}
+.logo{font-weight:800;font-size:20px}.logo b{background:linear-gradient(90deg,var(--pri),var(--pri2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.c{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:18px;padding:18px;margin-bottom:16px}
+.g{display:grid;gap:14px}.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+h2{font-size:22px;margin:0 0 10px}h3{font-size:16px;margin:0 0 10px}
+input,select,textarea{width:100%;background:var(--in);color:var(--tx);border:1px solid var(--bd);border-radius:11px;padding:10px;font:inherit;margin-bottom:9px}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--pri2);outline-offset:1px}
+label{font-size:12px;color:var(--mut);font-weight:600;display:block;margin-bottom:3px}
+button{font:inherit;font-weight:700;border:0;border-radius:11px;padding:10px 15px;cursor:pointer;background:linear-gradient(135deg,var(--pri),#5b8cff);color:#fff;transition:transform .12s,filter .12s}
+button:hover{filter:brightness(1.1)}button:active{transform:scale(.97)}
+button.s{background:var(--in);color:var(--tx);border:1px solid var(--bd)}button.d{background:var(--bad)}button.ok{background:var(--ok);color:#052e1b}button.sm{padding:6px 10px;font-size:12px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:16px;padding-bottom:2px}.tabs button{background:var(--card);color:var(--mut);border:1px solid var(--bd);white-space:nowrap}.tabs button.on{background:linear-gradient(135deg,var(--pri),#5b8cff);color:#fff;border-color:transparent}
+.k{text-align:center}.k b{display:block;font:800 30px 'Bricolage Grotesque',sans-serif}.k span{color:var(--mut);font-size:12px}
+.tbl{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th{font-size:12px;color:var(--mut);text-align:left;padding:9px;background:var(--in)}td{padding:9px;border-bottom:1px solid var(--bd);vertical-align:middle}
+td input,td select{margin:0;padding:6px;min-width:58px}
+.bar{height:8px;background:var(--in);border-radius:6px;overflow:hidden;min-width:70px}.bar i{display:block;height:100%;border-radius:6px}
+.bd{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700;color:#fff}
+.mut{color:var(--mut);font-size:12px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.msg{border:1px solid var(--bd);border-radius:12px;padding:10px;margin-bottom:8px;background:var(--in)}
+.err{color:var(--bad);font-size:12px;text-align:center;min-height:16px}.hide{display:none}
+.auth{max-width:430px;margin:36px auto}.hero{text-align:center;margin-bottom:18px}.hero h1{font:800 34px 'Bricolage Grotesque',sans-serif;margin:0}.hero p{color:var(--mut);margin:6px 0 0}
+.role{display:grid;grid-template-columns:auto 1fr;text-align:left;gap:2px 16px;align-items:center;padding:18px;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:18px;width:100%}
+.role span{grid-row:span 2;font-size:34px}.role b{font:800 18px 'Bricolage Grotesque',sans-serif}.role small{color:var(--mut);font-weight:400;font-size:13px}.role:hover{border-color:var(--pri2)}
+.pw{font-family:ui-monospace,monospace;font-size:12px}
+.chip{display:inline-flex;gap:5px;align-items:center;padding:4px 11px;border-radius:99px;background:var(--in);border:1px solid var(--bd);font-size:12px;font-weight:700;margin:0 6px 6px 0}
+@media print{:root{--bg:#fff;--card:#fff;--in:#f3f4f6;--bd:#ccc;--tx:#000;--mut:#444}header,.tabs,button,.no-print{display:none!important}body{background:#fff}.c{backdrop-filter:none}}
+</style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen pb-20 md:pb-6">
-
-  <!-- TOP BAR -->
-  <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-30 shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl overflow-hidden border border-slate-600 bg-white flex items-center justify-center p-0.5 shadow-md">
-          <img src="https://raw.githubusercontent.com/placeholder-logo/edutakip-logo.jpg" alt="EduTakip Logo" class="w-full h-full object-cover rounded-lg">
-        </div>
-        <div>
-          <h1 class="font-bold text-lg text-white leading-tight">EduTakip</h1>
-          <p class="text-xs text-emerald-400 font-semibold" id="syncStatus">● Canlı Senkronize Portal</p>
-        </div>
-      </div>
-      <div id="userBadge" class="hidden items-center space-x-3">
-        <span id="userInfo" class="text-sm font-medium text-slate-300"></span>
-        <button onclick="logout()" class="p-2 text-rose-400 hover:bg-slate-700 rounded-lg transition" title="Çıkış Yap">
-          <i data-lucide="log-out" class="w-5 h-5"></i>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- MAIN CONTAINER -->
-  <main class="max-w-7xl mx-auto px-4 py-6">
-
-    <!-- 1. TEACHER INITIAL REGISTER SCREEN -->
-    <div id="teacherRegisterScreen" class="max-w-md mx-auto mt-6 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl space-y-4">
-      <div class="text-center">
-        <div class="w-20 h-20 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-indigo-500/40 bg-white p-1 shadow-xl">
-          <img src="https://raw.githubusercontent.com/placeholder-logo/edutakip-logo.jpg" alt="EduTakip Logo" class="w-full h-full object-cover rounded-xl">
-        </div>
-        <h2 class="text-2xl font-bold text-white">Öğretmen Kaydı</h2>
-        <p class="text-slate-400 text-xs mt-1">Sistemi başlatmak için ilk bilgilerinizi tanımlayın</p>
-      </div>
-
-      <form onsubmit="handleTeacherRegister(event)" class="space-y-3">
-        <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Adınız Soyadınız</label>
-          <input type="text" id="regTeacherName" required placeholder="Örn: Ahmet Yılmaz" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Ana Branşınız</label>
-          <input type="text" id="regTeacherBranch" required placeholder="Örn: Matematik" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Kullanıcı Adı</label>
-          <input type="text" id="regTeacherUser" required placeholder="Örn: ahmet101" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Şifre</label>
-          <input type="password" id="regTeacherPass" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
-        </div>
-        <button type="submit" id="btnTeacherReg" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition shadow-lg mt-2 flex items-center justify-center gap-2">
-          <span>Kaydol ve Giriş Yap</span>
-        </button>
-      </form>
-    </div>
-
-    <!-- 2. MAIN LOGIN GATEWAY -->
-    <div id="loginScreen" class="hidden max-w-md mx-auto mt-6 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl">
-      <div class="text-center mb-4">
-        <div class="w-16 h-16 mx-auto mb-2 rounded-2xl overflow-hidden border-2 border-indigo-500/40 bg-white p-1 shadow-lg">
-          <img src="https://raw.githubusercontent.com/placeholder-logo/edutakip-logo.jpg" alt="EduTakip Logo" class="w-full h-full object-cover rounded-xl">
-        </div>
-        <h2 class="text-2xl font-bold text-white">EduTakip Girişi</h2>
-        <p class="text-slate-400 text-xs mt-1">Lütfen giriş yapmak istediğiniz rolü seçin</p>
-      </div>
-      
-      <div class="grid grid-cols-3 gap-2 mb-5 p-1 bg-slate-900 rounded-xl">
-        <button type="button" onclick="selectRole('student')" id="btnRoleStudent" class="py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white">Öğrenci</button>
-        <button type="button" onclick="selectRole('parent')" id="btnRoleParent" class="py-2 text-sm font-semibold rounded-lg text-slate-400">Veli</button>
-        <button type="button" onclick="selectRole('teacher')" id="btnRoleTeacher" class="py-2 text-sm font-semibold rounded-lg text-slate-400">Öğretmen</button>
-      </div>
-
-      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Kullanıcı Adı</label>
-          <input type="text" id="loginUsername" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Şifre</label>
-          <input type="password" id="loginPassword" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
-        </div>
-        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition shadow-lg">Giriş Yap</button>
-      </form>
-
-      <div class="mt-4 pt-4 border-t border-slate-700 text-center">
-        <button onclick="showRegisterScreen()" class="text-xs text-indigo-400 hover:underline">
-          Yeni Öğretmen Kaydı Oluştur
-        </button>
-      </div>
-      <p id="loginError" class="text-xs text-rose-400 text-center mt-3 hidden"></p>
-    </div>
-
-    <!-- 3. DASHBOARD PANELS -->
-    <div id="dashboard" class="hidden space-y-6">
-
-      <!-- STUDENT PANEL -->
-      <div id="studentPanel" class="hidden space-y-6">
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <span id="studentBadgeLevel" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full badge-bronz mb-2 inline-block">Bronz Kademe</span>
-            <h2 id="studentDisplayName" class="text-2xl font-bold text-white">--</h2>
-            <p id="studentDisplaySub" class="text-slate-400 text-sm">--</p>
-          </div>
-          <div class="flex items-center gap-4 w-full md:w-auto justify-between">
-            <div class="text-right">
-              <div class="text-2xl font-extrabold text-amber-400" id="studentTotalPoints">0 Puan</div>
-              <div class="text-xs text-slate-400">Tamamlanan Ödev Puanı</div>
-            </div>
-            <button onclick="changeStudentCredentials()" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-2 rounded-xl text-slate-200 font-semibold flex items-center gap-1">
-              <i data-lucide="key" class="w-3.5 h-3.5"></i> K.Adı / Şifre Değiştir
-            </button>
-          </div>
-        </div>
-
-        <div id="studentParentSection" class="bg-slate-800/90 border border-indigo-500/30 rounded-2xl p-5 shadow-lg"></div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 space-y-4">
-            <h3 class="font-bold text-lg text-white flex items-center gap-2">
-              <i data-lucide="book-open" class="w-5 h-5 text-indigo-400"></i> Aktif Ödevler & Görevler
-            </h3>
-            <div id="studentAssignmentsList" class="space-y-3"></div>
-          </div>
-          <div class="space-y-4">
-            <h3 class="font-bold text-lg text-white flex items-center gap-2">
-              <i data-lucide="message-square" class="w-5 h-5 text-indigo-400"></i> Öğretmen Notları
-            </h3>
-            <div id="studentMessagesList" class="space-y-3"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PARENT PANEL -->
-      <div id="parentPanel" class="hidden space-y-6">
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h2 class="text-xl font-bold text-white" id="parentWelcomeTitle">Veli Portalı</h2>
-            <p class="text-slate-400 text-xs mt-1">Öğrencinizin ev ödevi takip ve öğretmen iletişim alanı</p>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="changeParentCredentials()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-xl text-slate-200 font-semibold flex items-center gap-1">
-              <i data-lucide="key" class="w-3.5 h-3.5"></i> Veli K.Adı / Şifre Değiştir
-            </button>
-            <button onclick="logout()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-xl text-slate-200 font-semibold">Çıkış Yap</button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
-            <h3 class="font-bold text-white flex items-center gap-2">
-              <i data-lucide="check-square" class="w-5 h-5 text-emerald-400"></i> Ev Ödevi / Test Sonucu Gir
-            </h3>
-            <form onsubmit="submitParentResult(event)" class="space-y-3">
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Ders / Ödev Seçin</label>
-                <select id="parentAssignmentSelect" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm"></select>
-              </div>
-              <div class="grid grid-cols-3 gap-2">
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Doğru</label>
-                  <input type="number" id="parentCorrect" min="0" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white text-sm">
-                </div>
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Yanlış</label>
-                  <input type="number" id="parentWrong" min="0" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white text-sm">
-                </div>
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Boş</label>
-                  <input type="number" id="parentEmpty" min="0" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-white text-sm">
-                </div>
-              </div>
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Ödev Yapılma Durumu</label>
-                <select id="parentStatus" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm">
-                  <option value="Tamamlandı">Tam Yapıldı</option>
-                  <option value="Eksik">Eksik Yapıldı</option>
-                  <option value="Yapılmadı">Yapılmadı</option>
-                </select>
-              </div>
-              <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2.5 rounded-xl text-sm transition">Kaydet</button>
-            </form>
-          </div>
-
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
-            <h3 class="font-bold text-white flex items-center gap-2">
-              <i data-lucide="send" class="w-5 h-5 text-indigo-400"></i> Öğretmene Not / Mesaj Gönder
-            </h3>
-            <form onsubmit="submitParentMessage(event)" class="space-y-3">
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Mesajınız</label>
-                <textarea id="parentMsgText" rows="4" required placeholder="Öğretmene iletmek istediğiniz not..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-indigo-500"></textarea>
-              </div>
-              <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition">Mesajı İlet</button>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <!-- TEACHER PANEL -->
-      <div id="teacherPanel" class="hidden space-y-6">
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h2 class="text-xl font-bold text-white" id="teacherWelcomeTitle">Öğretmen Paneli</h2>
-            <p class="text-slate-400 text-xs mt-1" id="teacherWelcomeSub">Ödev yönetimi ve öğrenci işlemleri</p>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="openAddBranchModal()" class="text-xs bg-slate-700 hover:bg-slate-600 border border-slate-600 px-3 py-2 rounded-xl font-semibold text-white">+ Branş Ekle</button>
-            <button onclick="openAddStudentModal()" class="text-xs bg-indigo-600 hover:bg-indigo-500 px-3 py-2 rounded-xl font-semibold text-white">+ Yeni Öğrenci Tanımla</button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
-            <h3 class="font-bold text-white flex items-center gap-2">
-              <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-400"></i> Yeni Ödev Ver
-            </h3>
-            <form onsubmit="submitTeacherAssignment(event)" class="space-y-3">
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Ders Branşı</label>
-                <select id="teacherBranchSelect" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm"></select>
-              </div>
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Ödev Başlığı / Konusu</label>
-                <input type="text" id="teacherAssignTitle" required placeholder="Örn: Sayfa 45-50 arası test" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm">
-              </div>
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Son Teslim Tarihi</label>
-                <input type="date" id="teacherAssignDate" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm">
-              </div>
-              <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition">Ödevi Yayınla</button>
-            </form>
-          </div>
-
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
-            <h3 class="font-bold text-white flex items-center gap-2">
-              <i data-lucide="message-square" class="w-5 h-5 text-amber-400"></i> Özel Mesaj / Not Bırak
-            </h3>
-            <form onsubmit="submitTeacherMessage(event)" class="space-y-3">
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Hedef Alıcı Türü</label>
-                <select id="teacherTargetType" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm mb-2">
-                  <option value="student">Sadece Öğrenci Görebilsin</option>
-                  <option value="parent">Sadece Veli Görebilsin (Gizli Not)</option>
-                  <option value="both">Herkese Açık (Veli & Öğrenci)</option>
-                </select>
-                <label class="block text-xs text-slate-400 mb-1">İlgili Öğrenci</label>
-                <select id="teacherTargetStudent" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white text-sm"></select>
-              </div>
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Mesajınız</label>
-                <textarea id="teacherMsgText" rows="3" required placeholder="Not içeriği..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-indigo-500"></textarea>
-              </div>
-              <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-semibold py-2.5 rounded-xl text-sm transition">Mesajı Gönder</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6">
-          <h3 class="font-bold text-white mb-4">Kayıtlı Öğrenciler ve Giriş Bilgileri</h3>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-slate-300">
-              <thead class="text-xs uppercase bg-slate-900 text-slate-400">
-                <tr>
-                  <th class="p-3">Ad Soyad</th>
-                  <th class="p-3">Öğrenci K.Adı</th>
-                  <th class="p-3">Öğrenci Şifre</th>
-                  <th class="p-3">Veli K.Adı</th>
-                  <th class="p-3">Veli Durumu</th>
-                  <th class="p-3">Puan</th>
-                  <th class="p-3 text-right">Giriş Paneline Aktar</th>
-                </tr>
-              </thead>
-              <tbody id="teacherStudentsTable"></tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </main>
-
-  <script>
-    const DEFAULT_DATA = {
-      teachers: [],
-      branches: ["Matematik", "Türkçe", "Fen Bilimleri", "Sosyal Bilgiler", "İngilizce"],
-      students: [
-        { id: "s1", name: "Ali Yılmaz", username: "ali101", password: "123", parentName: "Veli Ali", parentUsername: "veli_ali", parentPass: "456", points: 85 }
-      ],
-      assignments: [
-        { id: "a1", branch: "Matematik", title: "Kesirler Çalışma Yaprağı", date: "2026-11-10", status: "Bekliyor" }
-      ],
-      messages: []
-    };
-
-    let cloudData = null;
-    let currentRole = 'student';
-    let currentUser = null;
-
-    function getLocalData() {
-      const stored = localStorage.getItem('edutakip_stable_v1');
-      return stored ? JSON.parse(stored) : DEFAULT_DATA;
-    }
-
-    function saveLocalData(data) {
-      localStorage.setItem('edutakip_stable_v1', JSON.stringify(data));
-      cloudData = data;
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      cloudData = getLocalData();
-      
-      if (!cloudData.teachers || cloudData.teachers.length === 0) {
-        showRegisterScreen();
-      } else {
-        showLoginScreen();
-      }
-      lucide.createIcons();
-    });
-
-    function showRegisterScreen() {
-      hideAllScreens();
-      document.getElementById('teacherRegisterScreen').classList.remove('hidden');
-    }
-
-    function showLoginScreen() {
-      hideAllScreens();
-      document.getElementById('loginScreen').classList.remove('hidden');
-    }
-
-    function hideAllScreens() {
-      document.getElementById('teacherRegisterScreen').classList.add('hidden');
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('dashboard').classList.add('hidden');
-    }
-
-    function selectRole(role) {
-      currentRole = role;
-      ['Student', 'Parent', 'Teacher'].forEach(r => {
-        const btn = document.getElementById(`btnRole${r}`);
-        if(r.toLowerCase() === role) {
-          btn.className = "py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white";
-        } else {
-          btn.className = "py-2 text-sm font-semibold rounded-lg text-slate-400";
-        }
-      });
-    }
-
-    function handleTeacherRegister(e) {
-      e.preventDefault();
-      
-      const name = document.getElementById('regTeacherName').value;
-      const branch = document.getElementById('regTeacherBranch').value;
-      const username = document.getElementById('regTeacherUser').value;
-      const password = document.getElementById('regTeacherPass').value;
-
-      if (!cloudData.branches.includes(branch)) cloudData.branches.push(branch);
-
-      const newTeacher = { id: 't' + Date.now(), name, branch, username, password };
-      cloudData.teachers.push(newTeacher);
-
-      saveLocalData(cloudData);
-
-      currentUser = { role: 'teacher', data: newTeacher };
-      showDashboard();
-    }
-
-    function handleLogin(e) {
-      e.preventDefault();
-      const u = document.getElementById('loginUsername').value.trim();
-      const p = document.getElementById('loginPassword').value.trim();
-      const err = document.getElementById('loginError');
-
-      err.classList.add('hidden');
-
-      if (currentRole === 'teacher') {
-        const tch = cloudData.teachers.find(t => t.username === u && t.password === p);
-        if (tch) {
-          currentUser = { role: 'teacher', data: tch };
-          showDashboard();
-        } else {
-          err.innerText = "Hatalı Öğretmen Kullanıcı Adı veya Şifre!";
-          err.classList.remove('hidden');
-        }
-      } else if (currentRole === 'student') {
-        const std = cloudData.students.find(s => s.username === u && s.password === p);
-        if (std) {
-          currentUser = { role: 'student', data: std };
-          showDashboard();
-        } else {
-          err.innerText = "Öğrenci bulunamadı veya şifre yanlış!";
-          err.classList.remove('hidden');
-        }
-      } else if (currentRole === 'parent') {
-        const std = cloudData.students.find(s => (s.parentUsername === u || s.username === u) && s.parentPass === p);
-        if (std) {
-          currentUser = { role: 'parent', data: std };
-          showDashboard();
-        } else {
-          err.innerText = "Veli kullanıcı adı veya şifresi eşleşmedi!";
-          err.classList.remove('hidden');
-        }
-      }
-    }
-
-    function showDashboard() {
-      hideAllScreens();
-      document.getElementById('dashboard').classList.remove('hidden');
-      document.getElementById('userBadge').classList.remove('hidden');
-      document.getElementById('userBadge').classList.add('flex');
-
-      document.getElementById('userInfo').innerText = `${currentUser.data.name} (${currentUser.role === 'teacher' ? 'Öğretmen' : currentUser.role === 'student' ? 'Öğrenci' : 'Veli'})`;
-
-      document.getElementById('studentPanel').classList.add('hidden');
-      document.getElementById('parentPanel').classList.add('hidden');
-      document.getElementById('teacherPanel').classList.add('hidden');
-
-      if (currentUser.role === 'student') renderStudentPanel();
-      if (currentUser.role === 'parent') renderParentPanel();
-      if (currentUser.role === 'teacher') renderTeacherPanel();
-    }
-
-    function fillStudentToLogin(username, password) {
-      selectRole('student');
-      document.getElementById('loginUsername').value = username;
-      document.getElementById('loginPassword').value = password;
-      showLoginScreen();
-    }
-
-    function renderStudentPanel() {
-      document.getElementById('studentPanel').classList.remove('hidden');
-      const std = cloudData.students.find(s => s.id === currentUser.data.id) || currentUser.data;
-      currentUser.data = std;
-
-      document.getElementById('studentDisplayName').innerText = std.name;
-      document.getElementById('studentDisplaySub').innerText = `Kullanıcı Adı: ${std.username}`;
-      document.getElementById('studentTotalPoints').innerText = `${std.points} Puan`;
-
-      const badge = document.getElementById('studentBadgeLevel');
-      if (std.points >= 100) {
-        badge.className = "text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full badge-altin inline-block";
-        badge.innerText = "Altın Kademe";
-      } else if (std.points >= 50) {
-        badge.className = "text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full badge-gumus inline-block";
-        badge.innerText = "Gümüş Kademe";
-      } else {
-        badge.className = "text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full badge-bronz inline-block";
-        badge.innerText = "Bronz Kademe";
-      }
-
-      const parentSection = document.getElementById('studentParentSection');
-      if (!std.parentPass) {
-        parentSection.innerHTML = `
-          <div class="flex items-center gap-3 mb-3">
-            <div class="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl">
-              <i data-lucide="shield-plus" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <h3 class="font-bold text-white text-base">Veli Hesabı Oluştur / Şifre Belirle</h3>
-              <p class="text-xs text-slate-400">Veli portalına erişim için kullanıcı adı ve şifre tanımlayın.</p>
-            </div>
-          </div>
-          <form onsubmit="handleInlineParentRegister(event)" class="grid grid-cols-1 md:grid-cols-4 gap-3">
-            <input type="text" id="inlineParentName" required placeholder="Veli Adı Soyadı" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
-            <input type="text" id="inlineParentUser" required placeholder="Veli Kullanıcı Adı" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
-            <input type="password" id="inlineParentPass" required placeholder="Yeni Veli Şifresi" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
-            <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-xl text-sm transition">
-              Veli Şifresini Kaydet
-            </button>
-          </form>
-        `;
-      } else {
-        parentSection.innerHTML = `
-          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-            <div class="flex items-center gap-3">
-              <div class="p-2 bg-indigo-500/20 text-indigo-400 rounded-xl">
-                <i data-lucide="shield-check" class="w-5 h-5"></i>
-              </div>
-              <div>
-                <h3 class="font-bold text-white text-base">Veli Portalı Geçişi</h3>
-                <p class="text-xs text-slate-400">Veli: <span class="text-indigo-300 font-semibold">${std.parentName || 'Kayıtlı Veli'}</span> (Korumalı Erişim)</p>
-              </div>
-            </div>
-            <form onsubmit="handleInlineParentLogin(event)" class="flex gap-2 w-full md:w-auto">
-              <input type="password" id="inlineEnterParentPass" required placeholder="Veli Şifreniz" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
-              <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-xl text-sm whitespace-nowrap transition">
-                Veli Portalına Geç
-              </button>
-            </form>
-          </div>
-        `;
-      }
-
-      const assignContainer = document.getElementById('studentAssignmentsList');
-      assignContainer.innerHTML = cloudData.assignments.map(a => `
-        <div class="bg-slate-800 border border-slate-700 p-4 rounded-xl flex justify-between items-center">
-          <div>
-            <span class="text-xs text-indigo-400 font-semibold uppercase">${a.branch}</span>
-            <h4 class="font-bold text-white text-sm">${a.title}</h4>
-            <p class="text-xs text-slate-400 mt-1">Son Tarih: ${a.date}</p>
-          </div>
-          <span class="px-2.5 py-1 text-xs font-semibold rounded-lg ${a.status === 'Tamamlandı' ? 'bg-emerald-900/60 text-emerald-400' : 'bg-amber-900/60 text-amber-400'}">${a.status}</span>
-        </div>
-      `).join('');
-
-      const msgContainer = document.getElementById('studentMessagesList');
-      const filteredMsgs = cloudData.messages.filter(m => (m.targetStudentId === std.id || m.targetStudentId === 'all') && m.targetType !== 'parent');
-      msgContainer.innerHTML = filteredMsgs.length ? filteredMsgs.map(m => `
-        <div class="bg-slate-800 border border-slate-700 p-3 rounded-xl">
-          <p class="text-xs text-indigo-400 font-semibold mb-1">${m.sender} • ${m.date}</p>
-          <p class="text-sm text-slate-200">${m.text}</p>
-        </div>
-      `).join('') : '<p class="text-xs text-slate-500">Henüz özel not bulunmuyor.</p>';
-
-      lucide.createIcons();
-    }
-
-    function changeStudentCredentials() {
-      const std = cloudData.students.find(s => s.id === currentUser.data.id);
-      if (!std) return;
-
-      const newUsername = prompt("Yeni Öğrenci Kullanıcı Adınız:", std.username);
-      if (newUsername && newUsername.trim() !== "") {
-        const newPassword = prompt("Yeni Öğrenci Şifreniz:", std.password);
-        if (newPassword && newPassword.trim() !== "") {
-          std.username = newUsername.trim();
-          std.password = newPassword.trim();
-          saveLocalData(cloudData);
-          alert("Kullanıcı adınız ve şifreniz güncellendi!");
-          renderStudentPanel();
-        }
-      }
-    }
-
-    function changeParentCredentials() {
-      const std = cloudData.students.find(s => s.id === currentUser.data.id);
-      if (!std) return;
-
-      const newPUser = prompt("Yeni Veli Kullanıcı Adınız:", std.parentUsername || std.username);
-      if (newPUser && newPUser.trim() !== "") {
-        const newPPass = prompt("Yeni Veli Şifreniz:", std.parentPass || "");
-        if (newPPass && newPPass.trim() !== "") {
-          std.parentUsername = newPUser.trim();
-          std.parentPass = newPPass.trim();
-          saveLocalData(cloudData);
-          alert("Veli bilgileri güncellendi!");
-          renderParentPanel();
-        }
-      }
-    }
-
-    function handleInlineParentRegister(e) {
-      e.preventDefault();
-      const pName = document.getElementById('inlineParentName').value;
-      const pUser = document.getElementById('inlineParentUser').value;
-      const pass = document.getElementById('inlineParentPass').value;
-
-      const std = cloudData.students.find(s => s.id === currentUser.data.id);
-      if(std) {
-        std.parentName = pName;
-        std.parentUsername = pUser;
-        std.parentPass = pass;
-        saveLocalData(cloudData);
-        alert("Veli hesabı başarıyla kaydedildi!");
-        renderStudentPanel();
-      }
-    }
-
-    function handleInlineParentLogin(e) {
-      e.preventDefault();
-      const inputPass = document.getElementById('inlineEnterParentPass').value;
-      const std = cloudData.students.find(s => s.id === currentUser.data.id);
-
-      if(std && std.parentPass === inputPass) {
-        currentUser = { role: 'parent', data: std };
-        currentRole = 'parent';
-        showDashboard();
-      } else {
-        alert("Hatalı Veli Şifresi!");
-      }
-    }
-
-    function renderParentPanel() {
-      document.getElementById('parentPanel').classList.remove('hidden');
-      const std = cloudData.students.find(s => s.id === currentUser.data.id) || currentUser.data;
-      currentUser.data = std;
-
-      document.getElementById('parentWelcomeTitle').innerText = `Veli Portalı (${std.parentName || 'Veli'})`;
-
-      const select = document.getElementById('parentAssignmentSelect');
-      select.innerHTML = cloudData.assignments.map(a => `<option value="${a.id}">${a.branch} - ${a.title}</option>`).join('');
-    }
-
-    function renderTeacherPanel() {
-      document.getElementById('teacherPanel').classList.remove('hidden');
-
-      document.getElementById('teacherWelcomeTitle').innerText = `${currentUser.data.name} (${currentUser.data.branch} Öğretmeni)`;
-
-      const branchSelect = document.getElementById('teacherBranchSelect');
-      branchSelect.innerHTML = cloudData.branches.map(b => `<option value="${b}">${b}</option>`).join('');
-
-      const stdSelect = document.getElementById('teacherTargetStudent');
-      stdSelect.innerHTML = cloudData.students.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-
-      const table = document.getElementById('teacherStudentsTable');
-      table.innerHTML = cloudData.students.map(s => `
-        <tr class="border-b border-slate-700/50">
-          <td class="p-3 font-semibold text-white">${s.name}</td>
-          <td class="p-3 text-slate-300 font-mono text-xs">${s.username}</td>
-          <td class="p-3 text-slate-300 font-mono text-xs">${s.password}</td>
-          <td class="p-3 text-slate-300 font-mono text-xs">${s.parentUsername || '-'}</td>
-          <td class="p-3 text-xs">${s.parentPass ? '<span class="text-emerald-400 font-semibold">Şifre Tanımlı</span>' : '<span class="text-amber-400">Bekliyor</span>'}</td>
-          <td class="p-3 font-bold text-amber-400">${s.points}</td>
-          <td class="p-3 text-right">
-            <button onclick="fillStudentToLogin('${s.username}', '${s.password}')" class="bg-indigo-600/30 hover:bg-indigo-600 text-indigo-300 hover:text-white px-2.5 py-1 rounded-lg text-xs transition">
-              Girişe Aktar ➔
-            </button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function submitTeacherAssignment(e) {
-      e.preventDefault();
-      cloudData.assignments.push({
-        id: 'a' + Date.now(),
-        branch: document.getElementById('teacherBranchSelect').value,
-        title: document.getElementById('teacherAssignTitle').value,
-        date: document.getElementById('teacherAssignDate').value,
-        status: 'Bekliyor'
-      });
-      saveLocalData(cloudData);
-      alert('Ödev başarıyla yayınlandı!');
-      renderTeacherPanel();
-    }
-
-    function submitTeacherMessage(e) {
-      e.preventDefault();
-      cloudData.messages.push({
-        id: 'm' + Date.now(),
-        sender: `${currentUser.data.name} (${currentUser.data.branch})`,
-        targetType: document.getElementById('teacherTargetType').value,
-        targetStudentId: document.getElementById('teacherTargetStudent').value,
-        text: document.getElementById('teacherMsgText').value,
-        date: new Date().toLocaleDateString('tr-TR')
-      });
-      saveLocalData(cloudData);
-      alert('Mesaj başarıyla iletildi!');
-      document.getElementById('teacherMsgText').value = '';
-    }
-
-    function submitParentResult(e) {
-      e.preventDefault();
-      const assignId = document.getElementById('parentAssignmentSelect').value;
-      const status = document.getElementById('parentStatus').value;
-
-      const assign = cloudData.assignments.find(a => a.id === assignId);
-      if (assign) {
-        assign.status = status;
-        const std = cloudData.students.find(s => s.id === currentUser.data.id);
-        if (std && status === 'Tamamlandı') std.points += 15;
-        saveLocalData(cloudData);
-        alert('Sonuç ve ödev durumu güncellendi!');
-      }
-    }
-
-    function submitParentMessage(e) {
-      e.preventDefault();
-      cloudData.messages.push({
-        id: 'm' + Date.now(),
-        sender: `Veli (${currentUser.data.parentName || currentUser.data.name})`,
-        targetType: 'teacher',
-        targetStudentId: currentUser.data.id,
-        text: document.getElementById('parentMsgText').value,
-        date: new Date().toLocaleDateString('tr-TR')
-      });
-      saveLocalData(cloudData);
-      alert('Mesajınız öğretmene iletildi!');
-      document.getElementById('parentMsgText').value = '';
-    }
-
-    function openAddBranchModal() {
-      const bName = prompt("Eklemek istediğiniz yeni ders branşını girin:");
-      if (bName) {
-        if (!cloudData.branches.includes(bName)) {
-          cloudData.branches.push(bName);
-          saveLocalData(cloudData);
-          renderTeacherPanel();
-        }
-      }
-    }
-
-    function openAddStudentModal() {
-      const sName = prompt("Öğrenci Adı Soyadı:");
-      if (sName) {
-        const baseUser = sName.toLowerCase().replace(/\s+/g, '');
-        const newStd = {
-          id: 's' + Date.now(),
-          name: sName,
-          username: baseUser + '101',
-          password: 'ogr' + Math.floor(100 + Math.random() * 900),
-          parentName: '',
-          parentUsername: 'veli_' + baseUser,
-          parentPass: null,
-          points: 0
-        };
-        cloudData.students.push(newStd);
-        saveLocalData(cloudData);
-        renderTeacherPanel();
-      }
-    }
-
-    function logout() {
-      currentUser = null;
-      showLoginScreen();
-    }
-  </script>
+<body>
+<header>
+  <div class="logo">🎓 Edu<b>Takip</b> Pro <span id="sy" class="mut" style="font-weight:600"></span></div>
+  <div class="row" style="justify-content:flex-end">
+    <button class="s sm" onclick="toggleTheme()" title="Tema">🌓</button>
+    <div id="who" class="row hide"><span id="whoT" class="mut"></span><button class="s sm" onclick="logout()">Çıkış</button></div>
+  </div>
+</header>
+<div class="w" id="app"></div>
+<script>
+/* Tüm cihazlarda (öğrenci/veli dahil) otomatik bağlanması için Apps Script URL'sini buraya yazabilirsiniz. */
+const DEFAULT_API='';
+
+const K='edutakip_v2';
+const SEED={teachers:[],branches:['Matematik','Türkçe','Fen Bilimleri','Sosyal Bilgiler','İngilizce'],students:[],assignments:[],messages:[],logs:[],announcements:[],attendance:[]};
+let D,me=null,role=null,tab='ov',selSt=null,err='';
+let ad='',acls='';
+let API=localStorage.getItem('edutakip_api_url')||DEFAULT_API;
+let ver=0,dirty=false,tmr=null;
+
+try{const th=localStorage.getItem('edutakip_theme');if(th)document.documentElement.dataset.theme=th}catch(e){}
+function toggleTheme(){const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');const n=cur==='light'?'dark':'light';document.documentElement.dataset.theme=n;try{localStorage.setItem('edutakip_theme',n)}catch(e){}}
+
+try{D=JSON.parse(localStorage.getItem(K))}catch(e){}
+D=D||JSON.parse(JSON.stringify(SEED));
+const norm=()=>{for(const k in SEED)if(!D[k])D[k]=JSON.parse(JSON.stringify(SEED[k]));D.students.forEach(s=>{s.sheet=s.sheet||[];s.exams=s.exams||[]})};norm();
+
+const sy=(t,c)=>{const e=document.getElementById('sy');if(e){e.textContent=t;e.style.color=c||''}};
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}
+  if(!API)return;dirty=true;sy('● Kaydediliyor…','var(--warn)');clearTimeout(tmr);tmr=setTimeout(push,700)};
+
+async function push(){try{const r=await(await fetch(API,{method:'POST',body:JSON.stringify({action:'save',data:D})})).json();
+  if(!r.ok)throw 0;ver=r.ver;dirty=false;sy('● E-Tablo ile senkronize','var(--ok)')}catch(e){sy('● Bağlantı hatası, tekrar deneniyor','var(--bad)');tmr=setTimeout(push,5000)}}
+
+async function pull(first){try{const r=await(await fetch(API+'?action=load')).json();
+  if(r.ok&&(first||r.ver!==ver)&&!dirty){if(r.data){D=r.data;norm();try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}
+    if(me){me.d=me.role==='teacher'?D.teachers.find(t=>t.id===me.d.id):stu(me.d.id);if(!me.d)me=null}if(!first)render()}
+    else if(first&&D.teachers.length){dirty=true;push()}
+    ver=r.ver}
+  sy('● E-Tablo ile senkronize','var(--ok)')}catch(e){sy('● Bağlantı hatası','var(--bad)')}}
+
+const $=i=>document.getElementById(i),v=i=>$(i).value.trim();
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const col=p=>p>=70?'var(--ok)':p>=50?'var(--warn)':'var(--bad)';
+const bar=p=>`<div class="bar"><i style="width:${p||0}%;background:${col(p||0)}"></i></div>`;
+const uid=p=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const asg=id=>D.assignments.find(a=>a.id===id);
+const stu=id=>D.students.find(s=>s.id===id);
+const now=()=>new Date().toLocaleString('tr-TR');
+const applies=(a,s)=>!a.cls||a.cls===s.cls;
+const classes=()=>[...new Set(D.students.map(s=>s.cls).filter(Boolean))].sort();
+
+function row(s,aid){let r=s.sheet.find(x=>x.aid===aid);if(!r){r={aid,st:'Bekliyor',c:0,w:0,e:0,fb:''};s.sheet.push(r)}return r}
+function syncRows(s){
+  D.assignments.forEach(a=>{if(applies(a,s))row(s,a.id)});
+  s.sheet=s.sheet.filter(r=>{const a=asg(r.aid);return a&&(applies(a,s)||r.st!=='Bekliyor'||tot(r)>0)});
+}
+const tot=r=>(+r.c||0)+(+r.w||0)+(+r.e||0);
+const pct=r=>tot(r)?Math.round(r.c/tot(r)*100):null;
+const net=r=>((+r.c||0)-(+r.w||0)/3).toFixed(1);
+const mean=a=>a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):null;
+
+function stats(s){
+  const rows=s.sheet.filter(r=>asg(r.aid));
+  const done=rows.filter(r=>r.st==='Tamamlandı').length,part=rows.filter(r=>r.st==='Eksik').length;
+  const avg=mean(rows.map(pct).filter(x=>x!==null));
+  const br={};
+  rows.forEach(r=>{const b=asg(r.aid).branch;br[b]=br[b]||{n:0,done:0,sc:[]};br[b].n++;if(r.st==='Tamamlandı')br[b].done++;const p=pct(r);if(p!==null)br[b].sc.push(p)});
+  Object.values(br).forEach(b=>b.avg=mean(b.sc));
+  return{rows,done,avg,br,pts:done*15+part*5,comp:rows.length?Math.round(done/rows.length*100):0,total:rows.length};
+}
+const attOf=s=>D.attendance.filter(a=>a.sid===s.id);
+function attStats(s){const L=attOf(s),abs=L.filter(a=>a.st==='Gelmedi').length;return{n:L.length,abs,rate:L.length?Math.round((L.length-abs)/L.length*100):null,L}}
+const level=p=>p>=100?['Altın','#ca8a04']:p>=50?['Gümüş','#64748b']:['Bronz','#a05a2c'];
+function status(st){if(st.avg===null)return['Veri yok','#64748b'];return st.avg>=70?['Başarılı','#059669']:st.avg>=50?['Gelişmeli','#d97706']:['Risk','#e11d48']}
+const badge=(t,c)=>`<span class="bd" style="background:${c}">${esc(t)}</span>`;
+
+function badges(s,st){
+  const B=[];
+  const ord=st.rows.filter(r=>r.st!=='Bekliyor').sort((a,b)=>asg(a.aid).date.localeCompare(asg(b.aid).date));
+  let streak=0;for(let i=ord.length-1;i>=0&&ord[i].st==='Tamamlandı';i--)streak++;
+  if(streak>=3)B.push(['🔥','Seri: '+streak+' ödev üst üste']);
+  if(st.avg!==null&&st.avg>=85)B.push(['🎯','Yüksek başarı']);
+  if(st.rows.some(r=>pct(r)===100))B.push(['💯','Tam puan']);
+  if(st.total>=3&&st.comp===100)B.push(['🏅','Tüm ödevler tamam']);
+  const a=attStats(s);if(a.n>=5&&a.abs===0)B.push(['📆','Tam devam']);
+  return B.length?`<div style="margin:2px 0 12px"><div class="mut" style="margin-bottom:6px">Rozetler</div>${B.map(b=>`<span class="chip">${b[0]} ${esc(b[1])}</span>`).join('')}</div>`:'';
+}
+
+function bars(title,pts){
+  if(pts.length<2)return'';
+  return`<h3 style="margin-top:16px">${title} <span class="mut">(son ${pts.length})</span></h3><div style="display:flex;gap:6px;align-items:flex-end">${pts.map(p=>`<div title="${esc(p.t)}" style="flex:1;text-align:center;font-size:11px;color:var(--mut)">%${p.p}<div style="height:${Math.max(4,p.p*.7)}px;background:${col(p.p)};border-radius:6px 6px 0 0;margin-top:3px"></div></div>`).join('')}</div>`;
+}
+function trend(s){
+  const rs=s.sheet.filter(r=>asg(r.aid)&&pct(r)!==null).sort((a,b)=>asg(a.aid).date.localeCompare(asg(b.aid).date)).slice(-10);
+  return bars('Ödev başarı trendi',rs.map(r=>({t:asg(r.aid).title,p:pct(r)})));
+}
+function examBlock(s,del){
+  const E=[...s.exams].sort((a,b)=>a.date.localeCompare(b.date));
+  if(!E.length)return'';
+  const tr=bars('Deneme başarı trendi',E.filter(e=>pct(e)!==null).slice(-10).map(e=>({t:e.title,p:pct(e)})));
+  return`<h3 style="margin-top:16px">📝 Deneme sınavları</h3><div class="tbl"><table><tr><th>Tarih</th><th>Sınav</th><th>Ders</th><th>D</th><th>Y</th><th>B</th><th>Net</th><th>%</th>${del?'<th></th>':''}</tr>${[...E].reverse().map(e=>`<tr><td>${esc(e.date)}</td><td>${esc(e.title)}</td><td>${esc(e.branch)}</td><td>${e.c}</td><td>${e.w}</td><td>${e.e}</td><td>${net(e)}</td><td>${pct(e)===null?'-':'%'+pct(e)}</td>${del?`<td><button class="d sm" onclick="delExam('${s.id}','${e.id}')">Sil</button></td>`:''}</tr>`).join('')}</table></div>${tr}`;
+}
+
+function profile(s){
+  const st=stats(s),lv=level(st.pts),sd=status(st),at=attStats(s);
+  const brs=Object.entries(st.br).map(([b,x])=>`<tr><td>${esc(b)}</td><td>${x.done}/${x.n}</td><td>${x.avg===null?'-':'%'+x.avg}</td><td style="width:35%">${bar(x.avg)}</td></tr>`).join('');
+  const recentAbs=at.L.filter(a=>a.st==='Gelmedi').sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(a=>a.date).join(', ');
+  return`<div class="c"><div class="row"><div><h2>${esc(s.name)}</h2><span class="mut">${esc(s.cls||'')} • ${esc(s.username)}</span></div><div>${badge(lv[0]+' Kademe',lv[1])} ${badge(sd[0],sd[1])} <button class="s sm" onclick="window.print()">🖨️ Yazdır / PDF</button></div></div>
+  <div class="g g4" style="margin:14px 0"><div class="k"><b>${st.pts}</b><span>Puan</span></div><div class="k"><b>%${st.comp}</b><span>Tamamlama</span></div><div class="k"><b>${st.avg===null?'-':'%'+st.avg}</b><span>Ort. başarı</span></div><div class="k"><b>${st.done}/${st.total}</b><span>Ödev</span></div><div class="k"><b>${at.rate===null?'-':'%'+at.rate}</b><span>Devam (${at.abs} devamsızlık)</span></div></div>
+  ${badges(s,st)}${recentAbs?`<p class="mut">Son devamsızlıklar: ${esc(recentAbs)}</p>`:''}
+  <h3>Ders bazlı durum</h3><div class="tbl"><table><tr><th>Ders</th><th>Ödev</th><th>Başarı</th><th></th></tr>${brs||'<tr><td colspan=4 class="mut">Henüz ödev yok</td></tr>'}</table></div>${trend(s)}${examBlock(s,false)}</div>`;
+}
+
+function sheetTable(s,edit){
+  const rs=s.sheet.filter(r=>asg(r.aid)).sort((a,b)=>asg(b.aid).date.localeCompare(asg(a.aid).date));
+  const i=(r,f)=>edit?`<input type="number" min="0" value="${r[f]}" onchange="setCell('${s.id}','${r.aid}','${f}',this.value)">`:r[f];
+  const sel=r=>edit?`<select onchange="setCell('${s.id}','${r.aid}','st',this.value)">${['Bekliyor','Tamamlandı','Eksik','Yapılmadı'].map(o=>`<option ${o===r.st?'selected':''}>${o}</option>`).join('')}</select>`:esc(r.st);
+  const fb=r=>edit?`<input style="min-width:150px" value="${esc(r.fb||'')}" placeholder="Not yaz…" onchange="setCell('${s.id}','${r.aid}','fb',this.value)">`:esc(r.fb||'');
+  return`<div class="tbl"><table><tr><th>Tarih</th><th>Ders</th><th>Ödev</th><th>D</th><th>Y</th><th>B</th><th>Net</th><th>%</th><th>Durum</th><th>Öğretmen notu</th></tr>${rs.map(r=>{const a=asg(r.aid),p=pct(r);return`<tr><td>${esc(a.date)}</td><td>${esc(a.branch)}</td><td>${esc(a.title)}${a.desc?'<br><span class="mut">'+esc(a.desc)+'</span>':''}</td><td>${i(r,'c')}</td><td>${i(r,'w')}</td><td>${i(r,'e')}</td><td>${net(r)}</td><td>${p===null?'-':'%'+p}</td><td>${sel(r)}${late(a,r)?' '+badge('Gecikti','#e11d48'):''}</td><td>${fb(r)}</td></tr>`}).join('')||'<tr><td colspan=10 class="mut">Kayıt yok</td></tr>'}</table></div>`;
+}
+function setCell(sid,aid,f,val){const r=row(stu(sid),aid);r[f]=(f==='st'||f==='fb')?val:Math.max(0,+val||0);save();if(me&&me.role==='teacher')render()}
+
+function render(){
+  const A=$('app');
+  $('who').classList.toggle('hide',!me);
+  if(me)$('whoT').textContent=me.d.name+' ('+{teacher:'Öğretmen',student:'Öğrenci',parent:'Veli'}[me.role]+')';
+  if(!me){A.innerHTML=loginHTML();return}
+  A.innerHTML=me.role==='teacher'?teacherHTML():me.role==='student'?studentHTML():parentHTML();
+}
+const hero=t=>`<div class="hero"><h1>🎓 EduTakip Pro</h1><p>${t}</p></div>`;
+
+/* DÜZELTME: satır içi onclick'te "role" butonun kendi ARIA özelliğiyle çakıştığı için fonksiyon kullanıyoruz */
+function setRole(k){role=k;err='';render()}
+
+const chooseHTML=()=>`<div class="auth" style="max-width:520px">${hero('Hangi hesapla giriş yapmak istiyorsunuz?')}<div class="g">${[['student','🧑‍🎓','Öğrenci girişi','Ödevlerini ve başarını gör'],['parent','👪','Veli girişi','Çocuğunun gelişimini takip et'],['teacher','👩‍🏫','Öğretmen girişi','Sınıfı yönet, ödev ver']].map(([k,i,t,d])=>`<button class="role" onclick="setRole('${k}')"><span>${i}</span><b>${t}</b><small>${d}</small></button>`).join('')}</div></div>`;
+
+const regHTML=()=>`<div class="auth">${hero('İlk kurulum: öğretmen hesabı oluşturun')}<div class="c"><h2>👩‍🏫 Öğretmen kaydı</h2>
+<button class="s sm" style="margin-bottom:12px" onclick="setRole(null)">← Giriş türünü değiştir</button>
+<label>Ad soyad</label><input id="rn"><label>Ana branş</label><input id="rb"><label>Kullanıcı adı</label><input id="ru"><label>Şifre</label><input id="rp" type="password">
+<button style="width:100%" onclick="regTeacher()">Kaydol ve giriş yap</button><p class="err">${err}</p></div></div>`;
+
+const loginHTML=()=>{
+  if(!role)return chooseHTML();
+  if(role==='teacher'&&!D.teachers.length)return regHTML();
+  return`<div class="auth">${hero(({student:'Öğrenci girişi',parent:'Veli girişi',teacher:'Öğretmen girişi'})[role])}<div class="c">
+<button class="s sm" style="margin-bottom:12px" onclick="setRole(null)">← Giriş türünü değiştir</button>
+<label>Kullanıcı adı</label><input id="lu" autocomplete="username"><label>Şifre</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+<button style="width:100%" onclick="login()">Giriş yap</button><p class="err">${err}</p></div></div>`};
+
+const cfgForm=back=>`<h2>⚙️ Google E-Tablo bağlantısı</h2><p class="mut">Apps Script web uygulaması adresini girin. Tüm veriler e-tabloya yazılır. Boş bırakırsanız yerel modda çalışır. Öğrenci ve velilerin kendi cihazlarında da bağlanması için adresi dosyanın başındaki <b>DEFAULT_API</b> değerine yazın.</p>
+<label>Web uygulaması URL adresi</label><input id="apiUrlInput" value="${esc(API)}" placeholder="https://script.google.com/macros/s/.../exec">
+<div class="row"><button onclick="saveApiUrl()">Kaydet ve bağlan</button><button class="s" onclick="${back}">Geri</button></div>`;
+function saveApiUrl(){const u=v('apiUrlInput');if(u)localStorage.setItem('edutakip_api_url',u);else localStorage.removeItem('edutakip_api_url');location.reload()}
+
+function regTeacher(){
+  if(D.teachers.length){err='Yeni öğretmen yalnızca giriş yapmış öğretmen tarafından eklenebilir.';return render()}
+  const t={id:uid('t'),name:v('rn'),branch:v('rb'),username:v('ru'),password:v('rp')};
+  if(!t.name||!t.branch||!t.username||!t.password){err='Tüm alanları doldurun.';return render()}
+  if(!D.branches.includes(t.branch))D.branches.push(t.branch);
+  D.teachers.push(t);err='';logIn('teacher',t);
+}
+function logIn(r,d){me={role:r,d};D.logs.push({t:now(),u:r==='parent'?d.parentUsername:d.username,r,n:r==='parent'?(d.parentName||d.name):d.name});D.logs=D.logs.slice(-200);save();tab='ov';selSt=null;err='';render()}
+function login(){
+  const u=v('lu'),p=v('lp');let f;
+  if(role==='teacher'){f=D.teachers.find(t=>t.username===u&&t.password===p)}
+  else if(role==='student'){f=D.students.find(s=>s.username===u&&s.password===p)}
+  else{f=D.students.find(s=>s.parentUsername===u&&s.parentPass&&s.parentPass===p)}
+  if(f)return logIn(role,f);
+  err='Kullanıcı adı veya şifre hatalı.';render();
+}
+function logout(){me=null;err='';role=null;render()}
+
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const late=(a,r)=>r.st==='Bekliyor'&&a.date<today();
+
+function dueHTML(s){
+  const t=today(),L=s.sheet.filter(r=>asg(r.aid)&&r.st==='Bekliyor').map(r=>asg(r.aid)).sort((x,y)=>x.date.localeCompare(y.date));
+  return`<div class="c"><h3>📅 Bekleyen ödevler</h3>${L.map(a=>{const d=Math.round((new Date(a.date)-new Date(t))/864e5);
+    const b=d<0?badge(-d+' gün gecikti','#e11d48'):d===0?badge('Bugün son gün','#d97706'):badge(d+' gün kaldı',d<=2?'#d97706':'#059669');
+    return`<div class="msg row"><span><b>${esc(a.title)}</b><br><span class="mut">${esc(a.branch)} • ${esc(a.date)}</span>${a.desc?'<br>'+esc(a.desc):''}</span>${b}</div>`}).join('')||'<p class="mut">Bekleyen ödev yok 🎉</p>'}</div>`;
+}
+
+const annHTML=del=>{const A=[...D.announcements].reverse().slice(0,5);
+  return A.length||del?`<div class="c"><h3>📢 Duyurular</h3>${A.map(a=>`<div class="msg row"><span><b>${esc(a.title)}</b> <span class="mut">${esc(a.date)}</span><br>${esc(a.text)}</span>${del?`<button class="d sm" onclick="delAnn('${a.id}')">Sil</button>`:''}</div>`).join('')||'<p class="mut">Duyuru yok</p>'}</div>`:''};
+const annForm=()=>`<div class="c"><h3>Duyuru yayınla</h3><p class="mut">Tüm öğrenci ve velilerin ana sayfasında görünür.</p><label>Başlık</label><input id="at"><label>Duyuru</label><textarea id="ax" rows="3"></textarea><button onclick="addAnn()">Yayınla</button></div>`+annHTML(true);
+function addAnn(){const t=v('at'),x=v('ax');if(!t||!x)return alert('Başlık ve duyuru metni gerekli.');D.announcements.push({id:uid('n'),title:t,text:x,date:new Date().toLocaleDateString('tr-TR')});save();render()}
+function delAnn(id){D.announcements=D.announcements.filter(a=>a.id!==id);save();render()}
+
+function exportCSV(){
+  const q=x=>'"'+String(x??'').replace(/"/g,'""')+'"';
+  const R=[['Öğrenci','Sınıf','Ders','Ödev','Son Teslim','Doğru','Yanlış','Boş','Net','Başarı %','Durum','Öğretmen Notu']];
+  D.students.forEach(s=>s.sheet.forEach(r=>{const a=asg(r.aid);if(a){const p=pct(r);R.push([s.name,s.cls||'',a.branch,a.title,a.date,r.c,r.w,r.e,net(r),p===null?'':p,r.st,r.fb||''])}}));
+  dl(new Blob(['\ufeff'+R.map(r=>r.map(q).join(';')).join('\r\n')],{type:'text/csv;charset=utf-8'}),'edutakip_rapor.csv');
+}
+function dl(b,name){const u=URL.createObjectURL(b),l=document.createElement('a');l.href=u;l.download=name;l.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+function exportJSON(){dl(new Blob([JSON.stringify(D)],{type:'application/json'}),'edutakip_yedek_'+today()+'.json')}
+function importJSON(inp){const f=inp.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const x=JSON.parse(rd.result);if(!x||!Array.isArray(x.teachers)||!Array.isArray(x.students))throw 0;
+  if(!confirm('Mevcut tüm veriler yedekteki verilerle değiştirilecek. Devam edilsin mi?'))return;
+  D=x;norm();save();me=null;role=null;alert('Yedek yüklendi. Lütfen yeniden giriş yapın.');render()}catch(e){alert('Geçersiz yedek dosyası.')}};rd.readAsText(f)}
+
+/* ---- Öğretmen ---- */
+function teacherHTML(){
+  const T=[['ov','📊 Ana sayfa'],['sheets','📑 Öğrenci sayfaları'],['hw','📝 Ödevler'],['att','📆 Yoklama'],['st','👥 Öğrenciler'],['msg','💬 Mesaj & duyuru'],['settings','⚙️ Ayarlar']];
+  return`<div class="tabs">${T.map(([k,t])=>`<button class="${tab===k?'on':''}" onclick="tab='${k}';render()">${t}</button>`).join('')}</div>`+({ov:ovHTML,sheets:sheetsHTML,hw:hwHTML,att:attHTML,st:stHTML,msg:()=>msgHTML()+annForm(),settings:settingsHTML}[tab])();
+}
+
+function settingsHTML(){
+  return`<div class="g g2"><div class="c">${cfgForm("tab='ov';render()")}</div>
+  <div class="c"><h3>Öğretmen ekle</h3><label>Ad soyad</label><input id="tn"><label>Branş</label><input id="tb"><label>Kullanıcı adı</label><input id="tu"><label>Şifre</label><input id="tp"><button class="ok" onclick="addTeacher()">Öğretmeni ekle</button><p class="err">${err}</p></div></div>
+  <div class="c"><h3>💾 Yedekleme</h3><p class="mut">Tüm verileri tek bir dosya olarak indirin veya daha önce aldığınız yedeği geri yükleyin.</p><div class="row" style="justify-content:flex-start"><button onclick="exportJSON()">⬇️ Yedek indir (JSON)</button><label class="s" style="margin:0;display:inline-block;cursor:pointer;padding:10px 15px;border:1px solid var(--bd);border-radius:11px;background:var(--in);color:var(--tx);font-size:14px">⬆️ Yedek yükle<input type="file" accept=".json,application/json" class="hide" onchange="importJSON(this)"></label><button class="s" onclick="exportCSV()">📄 Rapor (CSV)</button></div></div>`;
+}
+function addTeacher(){
+  const t={id:uid('t'),name:v('tn'),branch:v('tb'),username:v('tu'),password:v('tp')};
+  if(!t.name||!t.branch||!t.username||!t.password){err='Tüm alanları doldurun.';return render()}
+  if(userTaken(t.username)){err='Bu kullanıcı adı kullanılıyor.';return render()}
+  if(!D.branches.includes(t.branch))D.branches.push(t.branch);
+  D.teachers.push(t);err='';save();alert('Öğretmen eklendi.');render();
+}
+const userTaken=u=>D.teachers.some(t=>t.username===u)||D.students.some(s=>s.username===u||s.parentUsername===u);
+
+function accountsHTML(){
+  const R=[...D.teachers.map(t=>['Öğretmen',t.name,t.username,t.password,'']),
+    ...D.students.map(s=>['Öğrenci',s.name,s.username,s.password,s.cls||'']),
+    ...D.students.filter(s=>s.parentPass).map(s=>['Veli',s.parentName||'-',s.parentUsername,s.parentPass,s.name])];
+  const L=[...D.logs].reverse().slice(0,10);
+  return`<div class="g g2 no-print"><div class="c"><h3>🔑 Hesaplar <span class="mut">(e-tabloda “Hesaplar” sayfasına kaydedilir)</span></h3><div class="tbl"><table><tr><th>Rol</th><th>Ad</th><th>Kullanıcı adı</th><th>Şifre</th><th>Sınıf / Öğrenci</th></tr>${R.map(r=>`<tr><td>${r[0]}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td class="pw">${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join('')}</table></div></div>
+  <div class="c"><h3>🕘 Son girişler <span class="mut">(“Giriş Kayıtları” sayfası)</span></h3><div class="tbl"><table><tr><th>Zaman</th><th>Kullanıcı</th><th>Rol</th></tr>${L.map(l=>`<tr><td>${esc(l.t)}</td><td>${esc(l.u)}</td><td>${{teacher:'Öğretmen',student:'Öğrenci',parent:'Veli'}[l.r]}</td></tr>`).join('')||'<tr><td colspan=3 class="mut">Kayıt yok</td></tr>'}</table></div></div></div>`;
+}
+
+function ovHTML(){
+  const S=D.students.map(s=>({s,st:stats(s)}));
+  if(!S.length)return'<div class="c mut">Analiz için önce öğrenci ekleyin (Öğrenciler sekmesi).</div>'+accountsHTML();
+  const withAvg=S.filter(x=>x.st.avg!==null),cavg=mean(withAvg.map(x=>x.st.avg));
+  const ccomp=Math.round(S.reduce((a,x)=>a+x.st.comp,0)/S.length);
+  const risk=S.filter(x=>(x.st.avg!==null&&x.st.avg<50)||(x.st.comp<40&&x.st.total>0));
+  const byB=D.branches.map(b=>{const rs=[];D.students.forEach(s=>s.sheet.forEach(r=>{const a=asg(r.aid);if(a&&a.branch===b)rs.push(r)}));
+    return{b,n:rs.length,done:rs.filter(r=>r.st==='Tamamlandı').length,avg:mean(rs.map(pct).filter(x=>x!==null))}}).filter(x=>x.n);
+  const byA=D.assignments.map(a=>{const rs=D.students.filter(s=>applies(a,s)).map(s=>row(s,a.id));
+    return{a,done:rs.filter(r=>r.st==='Tamamlandı').length,n:rs.length,avg:mean(rs.map(pct).filter(x=>x!==null))}}).reverse();
+  const rank=[...S].sort((x,y)=>y.st.pts-x.st.pts||(y.st.avg||0)-(x.st.avg||0));
+  const t=today(),todayAbs=D.attendance.filter(a=>a.date===t&&a.st==='Gelmedi').map(a=>stu(a.sid)?.name).filter(Boolean);
+  const overdue=[];D.students.forEach(s=>s.sheet.forEach(r=>{const a=asg(r.aid);if(a&&late(a,r))overdue.push({s,a})}));
+  return`<div class="row" style="margin-bottom:12px"><span class="mut">Sınıfın genel görünümü</span><button class="s sm" onclick="exportCSV()">⬇️ Raporu indir (CSV)</button></div><div class="g g4"><div class="c k"><b>${S.length}</b><span>Öğrenci</span></div><div class="c k"><b>${D.assignments.length}</b><span>Ödev</span></div><div class="c k"><b>%${ccomp}</b><span>Sınıf tamamlama</span></div><div class="c k"><b>${cavg===null?'-':'%'+cavg}</b><span>Sınıf başarı ort.</span></div></div>
+  <div class="g g2"><div class="c"><h3>📆 Bugünün devamsızları</h3>${todayAbs.length?todayAbs.map(n=>`<span class="chip">${esc(n)}</span>`).join(''):'<p class="mut">Bugün için devamsız kaydı yok.</p>'}</div>
+  <div class="c"><h3>⏰ Geciken ödevler <span class="mut">(${overdue.length})</span></h3>${overdue.slice(0,6).map(x=>`<div class="msg row"><span><b>${esc(x.s.name)}</b><br><span class="mut">${esc(x.a.title)} • ${esc(x.a.date)}</span></span></div>`).join('')||'<p class="mut">Geciken ödev yok 🎉</p>'}${overdue.length>6?`<p class="mut">+${overdue.length-6} kayıt daha</p>`:''}</div></div>
+  <div class="g g2"><div class="c"><h3>Ders bazlı sınıf performansı</h3><div class="tbl"><table><tr><th>Ders</th><th>Teslim</th><th>Başarı</th><th></th></tr>${byB.map(x=>`<tr><td>${esc(x.b)}</td><td>${x.done}/${x.n}</td><td>${x.avg===null?'-':'%'+x.avg}</td><td>${bar(x.avg)}</td></tr>`).join('')||'<tr><td colspan=4 class="mut">Veri yok</td></tr>'}</table></div></div>
+  <div class="c"><h3>⚠️ Dikkat gerektiren öğrenciler</h3>${risk.map(x=>`<div class="msg row"><span><b>${esc(x.s.name)}</b><br><span class="mut">Başarı ${x.st.avg===null?'-':'%'+x.st.avg} • Tamamlama %${x.st.comp}</span></span><button class="sm s" onclick="selSt='${x.s.id}';tab='sheets';render()">İncele</button></div>`).join('')||'<p class="mut">Risk altında öğrenci yok 🎉</p>'}</div></div>
+  <div class="c"><h3>Ödev bazlı analiz</h3><div class="tbl"><table><tr><th>Ödev</th><th>Ders</th><th>Sınıf</th><th>Teslim</th><th>Ort. başarı</th><th></th></tr>${byA.map(x=>`<tr><td>${esc(x.a.title)}</td><td>${esc(x.a.branch)}</td><td>${esc(x.a.cls||'Tümü')}</td><td>${x.done}/${x.n}</td><td>${x.avg===null?'-':'%'+x.avg}</td><td style="width:25%">${bar(x.avg)}</td></tr>`).join('')||'<tr><td colspan=6 class="mut">Ödev yok</td></tr>'}</table></div></div>
+  <div class="c"><h3>🏆 Sınıf sıralaması</h3><div class="tbl"><table><tr><th>#</th><th>Öğrenci</th><th>Puan</th><th>Tamamlama</th><th>Başarı</th><th>Devam</th><th>Durum</th></tr>${rank.map((x,i)=>{const sd=status(x.st),at=attStats(x.s);return`<tr><td>${i+1}</td><td>${esc(x.s.name)}</td><td>${x.st.pts}</td><td>%${x.st.comp}</td><td>${x.st.avg===null?'-':'%'+x.st.avg}</td><td>${at.rate===null?'-':'%'+at.rate}</td><td>${badge(sd[0],sd[1])}</td></tr>`}).join('')}</table></div></div>`+accountsHTML();
+}
+
+function sheetsHTML(){
+  if(!D.students.length)return'<div class="c mut">Henüz öğrenci yok.</div>';
+  if(!stu(selSt))selSt=D.students[0].id;const s=stu(selSt);
+  return`<div class="c no-print"><label>Öğrenci sayfası seç</label><select onchange="selSt=this.value;render()">${D.students.map(x=>`<option value="${x.id}" ${x.id===selSt?'selected':''}>${esc(x.name)}${x.cls?' ('+esc(x.cls)+')':''}</option>`).join('')}</select></div>`+profile(s)+`<div class="c"><h3>📑 ${esc(s.name)} - Kayıt sayfası</h3><p class="mut">D: Doğru • Y: Yanlış • B: Boş • Net = D − Y/3. Değerler anında kaydedilir. “Öğretmen notu” öğrenci ve veliye görünür.</p>${sheetTable(s,true)}</div>
+  <div class="c no-print"><h3>➕ Deneme sınavı sonucu ekle</h3><div class="g g4"><div><label>Sınav adı</label><input id="xt" placeholder="Örn: Genel Deneme 1"></div><div><label>Tarih</label><input id="xd" type="date" value="${today()}"></div><div><label>Ders</label><select id="xb">${['Genel',...D.branches].map(b=>`<option>${esc(b)}</option>`).join('')}</select></div></div>
+  <div class="g g4"><div><label>Doğru</label><input id="xc" type="number" min="0" value="0"></div><div><label>Yanlış</label><input id="xw" type="number" min="0" value="0"></div><div><label>Boş</label><input id="xe" type="number" min="0" value="0"></div></div><button class="ok" onclick="addExam('${s.id}')">Sonucu kaydet</button></div>
+  ${s.exams.length?`<div class="c no-print"><h3>Deneme sonuçlarını yönet</h3>${examBlock(s,true).replace(/<h3[^>]*>.*?<\/h3>/,'')}</div>`:''}`;
+}
+function addExam(sid){const t=v('xt'),d=v('xd');if(!t||!d)return alert('Sınav adı ve tarih gerekli.');
+  stu(sid).exams.push({id:uid('x'),title:t,date:d,branch:v('xb'),c:Math.max(0,+v('xc')||0),w:Math.max(0,+v('xw')||0),e:Math.max(0,+v('xe')||0)});save();render()}
+function delExam(sid,id){if(!confirm('Deneme sonucu silinsin mi?'))return;const s=stu(sid);s.exams=s.exams.filter(e=>e.id!==id);save();render()}
+
+function hwHTML(){
+  const cl=classes();
+  return`<div class="g g2"><div class="c"><h3>Yeni ödev ver</h3><p class="mut">Ödev yayınlanınca seçilen sınıftaki öğrencilerin sayfasına satır eklenir.</p><label>Ders</label><select id="hb">${D.branches.map(b=>`<option>${esc(b)}</option>`).join('')}</select>
+<label>Kime</label><select id="hc"><option value="">Tüm sınıflar</option>${cl.map(c=>`<option>${esc(c)}</option>`).join('')}</select>
+<label>Başlık</label><input id="ht"><label>Açıklama (isteğe bağlı)</label><textarea id="hx" rows="2" placeholder="Sayfa no, konu, kaynak…"></textarea><label>Son teslim</label><input id="hd" type="date"><button onclick="addHw()">Yayınla</button></div>
+<div class="c"><h3>Yeni ders branşı</h3><input id="nb" placeholder="Örn: Din Kültürü"><button class="s" onclick="addBranch()">Ekle</button></div></div>
+<div class="c"><h3>Yayınlanan ödevler</h3>${[...D.assignments].reverse().map(a=>`<div class="msg row"><span><b>${esc(a.title)}</b> ${a.cls?badge(a.cls,'#5b8cff'):''}<br><span class="mut">${esc(a.branch)} • ${esc(a.date)}</span>${a.desc?'<br>'+esc(a.desc):''}</span><span><button class="s sm" onclick="editHw('${a.id}')">Tarih</button> <button class="d sm" onclick="delHw('${a.id}')">Sil</button></span></div>`).join('')||'<p class="mut">Ödev yok</p>'}</div>`;
+}
+function addHw(){const t=v('ht'),d=v('hd');if(!t||!d)return alert('Başlık ve tarih gerekli.');const a={id:uid('a'),branch:v('hb'),title:t,date:d,cls:v('hc'),desc:v('hx')};D.assignments.push(a);D.students.forEach(s=>{if(applies(a,s))row(s,a.id)});save();render()}
+function editHw(id){const a=asg(id),d=prompt('Yeni son teslim tarihi (YYYY-AA-GG):',a.date);if(d&&/^\d{4}-\d{2}-\d{2}$/.test(d.trim())){a.date=d.trim();save();render()}else if(d)alert('Tarih biçimi geçersiz.')}
+function delHw(id){if(!confirm('Ödev ve tüm öğrenci kayıtları silinsin mi?'))return;D.assignments=D.assignments.filter(a=>a.id!==id);D.students.forEach(s=>s.sheet=s.sheet.filter(r=>r.aid!==id));save();render()}
+function addBranch(){const b=v('nb');if(b&&!D.branches.includes(b)){D.branches.push(b);save();render()}}
+
+/* ---- Yoklama ---- */
+function attHTML(){
+  if(!ad)ad=today();
+  const cl=classes(),L=D.students.filter(s=>!acls||s.cls===acls);
+  const get=sid=>D.attendance.find(a=>a.date===ad&&a.sid===sid)?.st||'';
+  const sum=L.map(s=>({s,a:attStats(s)}));
+  return`<div class="c"><h3>📆 Günlük yoklama</h3><div class="g g2"><div><label>Tarih</label><input type="date" value="${ad}" onchange="ad=this.value;render()"></div><div><label>Sınıf</label><select onchange="acls=this.value;render()"><option value="">Tüm sınıflar</option>${cl.map(c=>`<option ${c===acls?'selected':''}>${esc(c)}</option>`).join('')}</select></div></div>
+  <div class="row" style="margin-bottom:10px"><span class="mut">Seçimler anında kaydedilir.</span><button class="ok sm" onclick="allPresent()">Hepsi geldi</button></div>
+  <div class="tbl"><table><tr><th>Öğrenci</th><th>Sınıf</th><th>Durum</th></tr>${L.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.cls||'')}</td><td><select onchange="setAtt('${s.id}',this.value)">${['','Geldi','Gelmedi','İzinli'].map(o=>`<option value="${o}" ${o===get(s.id)?'selected':''}>${o||'— işaretlenmedi —'}</option>`).join('')}</select></td></tr>`).join('')||'<tr><td colspan=3 class="mut">Öğrenci yok</td></tr>'}</table></div></div>
+  <div class="c"><h3>Devam özeti</h3><div class="tbl"><table><tr><th>Öğrenci</th><th>Kayıtlı gün</th><th>Devamsızlık</th><th>Devam</th><th></th></tr>${sum.map(x=>`<tr><td>${esc(x.s.name)}</td><td>${x.a.n}</td><td>${x.a.abs}</td><td>${x.a.rate===null?'-':'%'+x.a.rate}</td><td style="width:25%">${bar(x.a.rate)}</td></tr>`).join('')}</table></div></div>`;
+}
+function setAtt(sid,val){D.attendance=D.attendance.filter(a=>!(a.date===ad&&a.sid===sid));if(val)D.attendance.push({id:uid('y'),date:ad,sid,st:val});save()}
+function allPresent(){D.students.filter(s=>!acls||s.cls===acls).forEach(s=>{D.attendance=D.attendance.filter(a=>!(a.date===ad&&a.sid===s.id));D.attendance.push({id:uid('y'),date:ad,sid:s.id,st:'Geldi'})});save();render()}
+
+/* ---- Öğrenciler ---- */
+function addStudent(o){const s={id:uid('s'),sheet:[],exams:[],...o};D.students.push(s);syncRows(s);save();return s}
+function stHTML(){
+  const cl=classes();
+  return`<div class="c"><h3>Yeni öğrenci tanımla</h3><div class="g g2"><div><label>Ad soyad</label><input id="sn"><label>Sınıf</label><input id="sc" placeholder="Örn: 8-A"></div>
+<div><label>Öğrenci kullanıcı adı</label><input id="su"><label>Öğrenci şifre</label><input id="sp"></div></div><button onclick="newStudent()">Öğrenciyi kaydet ve sayfasını aç</button><p class="err">${err}</p></div>
+<div class="c"><div class="row"><h3>Kayıtlı öğrenciler <span class="mut">(${D.students.length})</span></h3><div class="row"><input id="fq" placeholder="🔍 Ara…" oninput="filterSt()" style="width:160px;margin:0"><select id="fc" onchange="filterSt()" style="width:140px;margin:0"><option value="">Tüm sınıflar</option>${cl.map(c=>`<option>${esc(c)}</option>`).join('')}</select></div></div>
+<div class="tbl"><table><tr><th>Ad</th><th>Sınıf</th><th>Kullanıcı adı</th><th>Şifre</th><th>Veli</th><th></th></tr>${D.students.map(s=>`<tr class="str" data-n="${esc((s.name+' '+s.username).toLowerCase())}" data-c="${esc(s.cls||'')}"><td>${esc(s.name)}</td><td>${esc(s.cls)}</td><td>${esc(s.username)}</td><td class="pw">${esc(s.password)}</td><td>${s.parentPass?esc(s.parentUsername)+' <button class="sm s" onclick="resetPar(\''+s.id+'\')">Sıfırla</button>':'<span class="mut">Bekliyor</span>'}</td><td style="white-space:nowrap"><button class="sm s" onclick="selSt='${s.id}';tab='sheets';render()">Sayfa</button> <button class="sm s" onclick="editSt('${s.id}')">Düzenle</button> <button class="sm d" onclick="delSt('${s.id}')">Sil</button></td></tr>`).join('')}</table></div></div>`;
+}
+function filterSt(){const q=($('fq').value||'').toLowerCase().trim(),c=$('fc').value;document.querySelectorAll('tr.str').forEach(r=>{r.style.display=(!q||r.dataset.n.includes(q))&&(!c||r.dataset.c===c)?'':'none'})}
+function newStudent(){
+  const n=v('sn'),u=v('su'),p=v('sp');
+  if(!n||!u||!p){err='Ad, kullanıcı adı ve şifre gerekli.';return render()}
+  if(userTaken(u)||userTaken('veli_'+u)){err='Bu kullanıcı adı kullanılıyor.';return render()}
+  const s=addStudent({name:n,cls:v('sc'),username:u,password:p,parentName:'',parentUsername:'veli_'+u,parentPass:null});
+  err='';selSt=s.id;tab='sheets';render();
+}
+function editSt(id){const s=stu(id);
+  const n=prompt('Ad soyad:',s.name);if(n===null)return;
+  const c=prompt('Sınıf:',s.cls||'');if(c===null)return;
+  const p=prompt('Öğrenci şifresi:',s.password);if(p===null)return;
+  if(!n.trim()||!p.trim())return alert('Ad ve şifre boş olamaz.');
+  s.name=n.trim();s.cls=c.trim();s.password=p.trim();syncRows(s);save();render()}
+function resetPar(id){if(!confirm('Veli hesabı silinsin mi? Öğrenci yeni bir veli hesabı oluşturabilir.'))return;const s=stu(id);Object.assign(s,{parentName:'',parentPass:null});save();render()}
+function delSt(id){if(confirm('Öğrenci ve tüm kayıtları silinsin mi?')){D.students=D.students.filter(s=>s.id!==id);D.messages=D.messages.filter(m=>m.sid!==id);D.attendance=D.attendance.filter(a=>a.sid!==id);save();render()}}
+
+function msgHTML(){
+  const inbox=[...D.messages].reverse().filter(m=>m.to==='teacher');
+  return`<div class="g g2"><div class="c"><h3>Mesaj / not gönder</h3><label>Görünürlük</label><select id="mt"><option value="student">Sadece öğrenci</option><option value="parent">Sadece veli</option><option value="both">Veli ve öğrenci</option></select>
+<label>Öğrenci</label><select id="ms"><option value="ALL">📣 Tüm öğrenciler</option>${D.students.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select><label>Mesaj</label><textarea id="mx" rows="3"></textarea><button onclick="sendT()">Gönder</button></div>
+<div class="c"><h3>Veli mesajları <span class="mut">(${inbox.length})</span></h3>${inbox.map(m=>`<div class="msg"><b>${esc(m.from)}</b> <span class="mut">${esc(m.date)} • ${esc(stu(m.sid)?.name||'')}</span><br>${esc(m.text)}</div>`).join('')||'<p class="mut">Gelen mesaj yok</p>'}</div></div>`;
+}
+function sendT(){const t=v('mx'),sid=v('ms');if(!t||!sid)return;const from=me.d.name+' ('+me.d.branch+')',to=v('mt'),date=new Date().toLocaleDateString('tr-TR');
+  (sid==='ALL'?D.students.map(s=>s.id):[sid]).forEach(id=>D.messages.push({id:uid('m'),from,to,sid:id,text:t,date}));save();alert('Gönderildi.');render()}
+
+/* ---- Öğrenci / Veli ---- */
+const notes=(s,k)=>[...D.messages].reverse().filter(m=>m.sid===s.id&&(m.to===k||m.to==='both')).map(m=>`<div class="msg"><b>${esc(m.from)}</b> <span class="mut">${esc(m.date)}</span><br>${esc(m.text)}</div>`).join('')||'<p class="mut">Not yok</p>';
+function studentHTML(){
+  const s=stu(me.d.id);me.d=s;
+  const par=s.parentPass?`<p class="mut">Veli hesabı tanımlı: <b>${esc(s.parentName||s.parentUsername)}</b> (kullanıcı adı: ${esc(s.parentUsername)})</p>`
+    :`<h3>Veli hesabı oluştur</h3><div class="g g4"><input id="pn" placeholder="Veli adı"><input id="pu" placeholder="Veli kullanıcı adı"><input id="pp" type="password" placeholder="Veli şifresi"><button class="ok" onclick="mkParent()">Kaydet</button></div><p class="err">${err}</p>`;
+  return annHTML()+profile(s)+dueHTML(s)+`<div class="c no-print">${par}<button class="s sm" onclick="chCred()">Kullanıcı adı / şifre değiştir</button></div>
+  <div class="g g2"><div class="c"><h3>📑 Ödev kayıtlarım</h3>${sheetTable(s,false)}</div><div class="c"><h3>💬 Öğretmen notları</h3>${notes(s,'student')}</div></div>`;
+}
+function mkParent(){const n=v('pn'),u=v('pu'),p=v('pp');if(!n||!u||!p){err='Tüm alanları doldurun.';return render()}if(userTaken(u)){err='Kullanıcı adı kullanılıyor.';return render()}Object.assign(me.d,{parentName:n,parentUsername:u,parentPass:p});err='';save();render()}
+function chCred(){const u=prompt('Yeni kullanıcı adı:',me.d.username);if(!u||!u.trim())return;const p=prompt('Yeni şifre:',me.d.password);if(!p||!p.trim())return;
+  if(u.trim()!==me.d.username&&userTaken(u.trim()))return alert('Bu kullanıcı adı kullanılıyor.');me.d.username=u.trim();me.d.password=p.trim();save();render()}
+
+function parentHTML(){
+  const s=stu(me.d.id);me.d=s;
+  const opts=[...D.assignments].filter(a=>applies(a,s)).reverse();
+  return annHTML()+profile(s)+dueHTML(s)+`<div class="g g2 no-print"><div class="c"><h3>✅ Ödev / test sonucu gir</h3><p class="mut">Veri yalnızca ${esc(s.name)} adlı öğrencinin sayfasına işlenir.</p><label>Ödev</label><select id="pa">${opts.map(a=>`<option value="${a.id}">${esc(a.branch)} - ${esc(a.title)}</option>`).join('')}</select>
+<div class="g" style="grid-template-columns:repeat(3,1fr)"><div><label>Doğru</label><input id="pc" type="number" min="0" value="0"></div><div><label>Yanlış</label><input id="pw" type="number" min="0" value="0"></div><div><label>Boş</label><input id="pe" type="number" min="0" value="0"></div></div>
+<label>Durum</label><select id="ps"><option>Tamamlandı</option><option>Eksik</option><option>Yapılmadı</option></select><button class="ok" style="width:100%" onclick="parentSave()">Kaydet</button></div>
+<div class="c"><h3>✉️ Öğretmene mesaj</h3><textarea id="pm" rows="4"></textarea><button style="width:100%" onclick="parentMsg()">İlet</button><h3 style="margin-top:14px">Öğretmen notları</h3>${notes(s,'parent')}</div></div>
+<div class="c"><h3>📑 Ödev kayıtları</h3>${sheetTable(s,false)}</div><button class="s sm no-print" onclick="chPar()">Veli kullanıcı adı / şifre değiştir</button>`;
+}
+function parentSave(){const aid=v('pa');if(!aid)return alert('Önce öğretmen ödev vermeli.');const r=row(me.d,aid);Object.assign(r,{c:+v('pc')||0,w:+v('pw')||0,e:+v('pe')||0,st:v('ps')});save();alert('Kayıt öğrenci sayfasına işlendi.');render()}
+function parentMsg(){const t=v('pm');if(!t)return;D.messages.push({id:uid('m'),from:'Veli ('+(me.d.parentName||me.d.name)+')',to:'teacher',sid:me.d.id,text:t,date:new Date().toLocaleDateString('tr-TR')});save();alert('İletildi.');render()}
+function chPar(){const u=prompt('Yeni veli kullanıcı adı:',me.d.parentUsername);if(!u||!u.trim())return;const p=prompt('Yeni veli şifresi:');if(!p||!p.trim())return;
+  if(u.trim()!==me.d.parentUsername&&userTaken(u.trim()))return alert('Bu kullanıcı adı kullanılıyor.');me.d.parentUsername=u.trim();me.d.parentPass=p.trim();save();render()}
+
+if(API){
+  sy('● Yükleniyor…','var(--warn)');
+  pull(true).then(()=>{render();setInterval(()=>{if(!dirty&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))pull()},15000)})
+}else{sy('● Yerel mod','var(--warn)');render()}
+</script>
 </body>
 </html>
